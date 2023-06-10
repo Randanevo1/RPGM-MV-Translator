@@ -1,4 +1,4 @@
-from json import load, dump
+from json import load
 import os
 
 ##--------------------------------------------------------##
@@ -15,12 +15,12 @@ VALID_OTHERS = [
     "Skills"
 ]
 
-with open("./PY/valid_codes.json", "r") as f:
+with open("./../valid_codes.json", "r") as f:
     valid_codes = load(f)
 
 ##--------------------------------------------------------##
 
-def main(file_path: str):
+def parse(file_path: str):
 
     file_name = os.path.basename(file_path).split(".")[0]
 
@@ -28,21 +28,16 @@ def main(file_path: str):
         data = load(f)
 
     if file_name in "CommonEvents":
-        save_to_json(id_looper(data, CE_entry_handler), file_name)
+        return id_looper(data, CE_entry_handler), file_name
     
     elif "Map" in file_name:
-        save_to_json(id_looper(data["events"], map_entry_handler), file_name)
+        return id_looper(data["events"], map_entry_handler), file_name
 
     elif file_name in "System":
-        save_to_json(parse_system(data), file_name)
+        return parse_system(data), file_name
 
     elif file_name in VALID_OTHERS:
-        save_to_json(id_looper(data, others_handler), file_name)
-        
-
-def save_to_json(data: dict, file_name: str) -> None:
-    with open(file_name + ".json", 'w', encoding="utf-8") as fp:
-        dump(data, fp, indent=1, ensure_ascii=False)
+        return id_looper(data, others_handler), file_name
 
 ##--------------------------------------------------------##
 

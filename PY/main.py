@@ -2,6 +2,7 @@ from json import load, dump
 import os
 
 ##--------------------------------------------------------##
+
 VALID_OTHERS = [
     "Armors",
     "Items",
@@ -14,12 +15,8 @@ VALID_OTHERS = [
     "Skills"
 ]
 
-valid_codes = [
-    401,
-    405,
-    102,
-    108
-]
+with open("./PY/valid_codes.json", "r") as f:
+    valid_codes = load(f)
 
 ##--------------------------------------------------------##
 
@@ -147,5 +144,3 @@ def is_tmp_holder_valid(holder) -> bool:
     elif holder[0]["code"] in valid_codes:
         return True
     return False
-
-main("C:/Users/Mark/Desktop/TOD/www/data/Map002.json")

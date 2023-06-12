@@ -28,16 +28,16 @@ def extract(file_path: str):
         data = load(f)
 
     if file_name in "CommonEvents":
-        return id_looper(data, CE_entry_handler), file_name
+        return id_looper(data, CE_entry_handler)
     
     elif "Map" in file_name:
-        return id_looper(data["events"], map_entry_handler), file_name
+        return id_looper(data["events"], map_entry_handler)
 
     elif file_name in "System":
-        return parse_system(data), file_name
+        return parse_system(data)
 
     elif file_name in VALID_OTHERS:
-        return id_looper(data, others_handler), file_name
+        return id_looper(data, others_handler)
 
 ##--------------------------------------------------------##
 

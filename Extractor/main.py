@@ -20,7 +20,7 @@ with open("./../valid_codes.json", "r") as f:
 
 ##--------------------------------------------------------##
 
-def parse(file_path: str):
+def extract(file_path: str):
 
     file_name = os.path.basename(file_path).split(".")[0]
 

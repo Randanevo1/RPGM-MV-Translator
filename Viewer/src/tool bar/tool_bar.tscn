@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bjst4o6gm1itx"]
+
+[node name="tool_bar" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="file" type="MenuButton" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "File"
+item_count = 2
+popup/item_0/text = "Extract game"
+popup/item_0/id = 0
+popup/item_1/text = "View data"
+popup/item_1/id = 1
+
+[node name="tools" type="MenuButton" parent="PanelContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Tools"

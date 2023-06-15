@@ -6,6 +6,11 @@ class_name Page
 @onready var page = $"."
 
 
+func clear():
+	for child in page.get_children():
+		child.free()
+
+
 func setup_page(page_arr: Array):
 	
 	var page_count = 0

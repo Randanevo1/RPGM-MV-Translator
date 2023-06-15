@@ -17,6 +17,7 @@ func setup_lines(lines_arr: Array, block_name: String) -> void:
 	for line in lines_arr:
 		var new_line: c_line = line_instance.instantiate()
 		lines.add_child(new_line)
+		lines.add_child(HSeparator.new())
 		new_line.code.text       = str(line["code"])
 		new_line.indent.text     = str(line["indent"])
 		new_line.parameters.text = str(line["parameters"])

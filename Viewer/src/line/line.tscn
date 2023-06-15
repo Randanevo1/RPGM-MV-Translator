@@ -10,7 +10,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
 script = ExtResource("1_h13da")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="."]
@@ -23,7 +22,6 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="main_cont" type="VBoxContainer" parent="VBoxContainer2/MarginContainer"]
-visible = false
 layout_mode = 2
 
 [node name="code" parent="VBoxContainer2/MarginContainer/main_cont" instance=ExtResource("2_3yyuc")]

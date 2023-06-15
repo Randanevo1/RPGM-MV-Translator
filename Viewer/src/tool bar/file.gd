@@ -16,6 +16,7 @@ var valid_files = [
 
 @onready var file_select: NativeFileDialog = $"file_select"
 var d
+var n: String
 
 signal dat
 
@@ -52,4 +53,5 @@ func _on_native_file_dialog_file_selected(path: String):
 
 func extract_selected_file(data, file_name):
 	d = Extractor.extract(data, file_name)
+	n = file_name
 	emit_signal("dat")

@@ -139,3 +139,8 @@ def is_tmp_holder_valid(holder) -> bool:
     elif holder[0]["code"] in valid_codes:
         return True
     return False
+
+
+
+def user_cond(cond_1, cond_2, expression):
+    pass

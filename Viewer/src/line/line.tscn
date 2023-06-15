@@ -1,0 +1,58 @@
+[gd_scene load_steps=4 format=3 uid="uid://0sbaravn4oue"]
+
+[ext_resource type="Script" path="res://src/line/line.gd" id="1_h13da"]
+[ext_resource type="PackedScene" uid="uid://b23sjds8pbe6u" path="res://src/key value row/key_value.tscn" id="2_3yyuc"]
+[ext_resource type="PackedScene" uid="uid://swgu7wlvgbpy" path="res://src/expand container button/expand_container.tscn" id="2_5jr0r"]
+
+[node name="line" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+script = ExtResource("1_h13da")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="expand_container" parent="VBoxContainer2" instance=ExtResource("2_5jr0r")]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer2"]
+layout_mode = 2
+
+[node name="main_cont" type="VBoxContainer" parent="VBoxContainer2/MarginContainer"]
+visible = false
+layout_mode = 2
+
+[node name="code" parent="VBoxContainer2/MarginContainer/main_cont" instance=ExtResource("2_3yyuc")]
+layout_mode = 2
+
+[node name="key" parent="VBoxContainer2/MarginContainer/main_cont/code" index="0"]
+text = "code:"
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer2/MarginContainer/main_cont"]
+layout_mode = 2
+
+[node name="indent" parent="VBoxContainer2/MarginContainer/main_cont" instance=ExtResource("2_3yyuc")]
+layout_mode = 2
+
+[node name="key" parent="VBoxContainer2/MarginContainer/main_cont/indent" index="0"]
+text = "indent:"
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer2/MarginContainer/main_cont"]
+layout_mode = 2
+
+[node name="parameters" parent="VBoxContainer2/MarginContainer/main_cont" instance=ExtResource("2_3yyuc")]
+layout_mode = 2
+
+[node name="key" parent="VBoxContainer2/MarginContainer/main_cont/parameters" index="0"]
+text = "parameters:"
+
+[connection signal="request_expand" from="VBoxContainer2/expand_container" to="." method="_on_expand_container_request_expand"]
+
+[editable path="VBoxContainer2/expand_container"]
+[editable path="VBoxContainer2/MarginContainer/main_cont/code"]
+[editable path="VBoxContainer2/MarginContainer/main_cont/indent"]
+[editable path="VBoxContainer2/MarginContainer/main_cont/parameters"]

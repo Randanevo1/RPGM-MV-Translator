@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://swgu7wlvgbpy"]
+
+[ext_resource type="Script" path="res://src/expand container button/expand_container.gd" id="1_ewa66"]
+
+[node name="expand_container" type="HBoxContainer"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("1_ewa66")
+
+[node name="expand" type="Button" parent="."]
+layout_mode = 2
+text = "+"
+
+[node name="id" type="Label" parent="."]
+layout_mode = 2
+
+[connection signal="button_up" from="expand" to="." method="_on_expand_button_up"]

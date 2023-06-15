@@ -1,11 +1,9 @@
 extends Node
-class_name Extractor
 
 var valid_codes = [
 	401,
 	405,
 	102,
-	108
 ]
 
 ##--------------------------------------------------------##
@@ -92,24 +90,29 @@ func break_up_list(list: Array) -> Array:
 	for line in list:
 		var tmp_hold_size = len(tmp_holder)
 		
-		if line["code"] in valid_codes:
-			if tmp_hold_size > 0:
-				if is_tmp_holder_valid(tmp_holder) == true:
-					tmp_holder.append(line)
-				else:
-					blocks.append(tmp_holder)
-					tmp_holder = []
-					tmp_holder.append(line)
+		if tmp_hold_size == 0:
+			tmp_holder.append(line)
+			continue
+		
+		if valid_codes.has(int(line["code"])):
+			if is_tmp_holder_valid(tmp_holder) == true:
+				tmp_holder.append(line)
 			else:
-				if tmp_hold_size > 0:
-					if is_tmp_holder_valid(tmp_holder) == false:
-						tmp_holder.append(line)
-					else:
-						blocks.append(tmp_holder)
-						tmp_holder = []
-						tmp_holder.append(line)
-				else:
-					tmp_holder.append(line)
+				blocks.append(tmp_holder)
+				tmp_holder = []
+				tmp_holder.append(line)
+		
+		else:
+			if is_tmp_holder_valid(tmp_holder) == false:
+				tmp_holder.append(line)
+			else:
+				blocks.append(tmp_holder)
+				tmp_holder = []
+				tmp_holder.append(line)
+	
+	if len(tmp_holder) > 0:
+		blocks.append(tmp_holder)
+	
 	return blocks
 
 
@@ -117,6 +120,6 @@ func is_tmp_holder_valid(holder: Array) -> bool:
 	
 	if len(holder) == 0:
 		return false
-	elif holder[0]["code"] in valid_codes:
+	elif int(holder[0]["code"]) in valid_codes:
 		return true
 	return false

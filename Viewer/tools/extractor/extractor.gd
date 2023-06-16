@@ -3,26 +3,25 @@ extends Node
 var valid_codes = [
 	401,
 	405,
-	102,
-	108
+	102
 ]
 
 ##--------------------------------------------------------##
 
-func extract(data: Array, file_name: String) -> Array:
+func extract(data, file_name: String):
 	
 	if file_name in "CommonEvents":
 		return id_looper(data, ce_entry_handler)
 	elif "Map" in file_name:
 		return id_looper(data, map_entry_handler)
 	elif file_name in "System":
-		return id_looper(data, system_handler)
+		return system_handler(data)
 	else:
 		return id_looper(data, others_entry_handler)
 
 ##--------------------------------------------------------##
 
-func id_looper(entry_array: Array, entry_handler: Callable) -> Array:
+func id_looper(entry_array, entry_handler: Callable) -> Array:
 	
 	var parsed_data = []
 	

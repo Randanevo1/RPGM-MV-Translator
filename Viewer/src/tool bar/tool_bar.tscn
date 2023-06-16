@@ -25,13 +25,21 @@ popup/item_1/id = 1
 script = ExtResource("1_mwjjj")
 
 [node name="file_select" type="NativeFileDialog" parent="HBoxContainer/file"]
-title = "Open a File"
-file_mode = 0
+title = "Open a Directory"
+file_mode = 2
+access = 2
 filters = PackedStringArray("*.json")
+
+[node name="extracted_select" type="NativeFileDialog" parent="HBoxContainer/file"]
+title = "Open extracted data folder"
+file_mode = 2
+access = 2
 
 [node name="tools" type="MenuButton" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 text = "Tools"
 
+[connection signal="dir_selected" from="HBoxContainer/file/file_select" to="HBoxContainer/file" method="_on_file_select_dir_selected"]
 [connection signal="file_selected" from="HBoxContainer/file/file_select" to="HBoxContainer/file" method="_on_native_file_dialog_file_selected"]
+[connection signal="dir_selected" from="HBoxContainer/file/extracted_select" to="HBoxContainer/file" method="_on_extracted_select_dir_selected"]

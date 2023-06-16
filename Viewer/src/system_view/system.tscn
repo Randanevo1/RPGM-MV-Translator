@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2vbuq6ukux3y"]
+
+[ext_resource type="Script" path="res://src/system_view/system.gd" id="1_q4pdr"]
+
+[node name="system" type="PanelContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_q4pdr")
+
+[node name="main_cont" type="VBoxContainer" parent="."]
+layout_mode = 2

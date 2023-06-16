@@ -14,11 +14,10 @@ var valid_files = [
 	"System"
 ]
 
-@onready var file_select: NativeFileDialog = $"file_select"
-var d
-var n: String
+@onready var file_select:      NativeFileDialog = $"file_select"
+@onready var extracted_select: NativeFileDialog = $extracted_select
 
-signal dat
+signal extracted_game
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -31,27 +30,72 @@ func button_selected(id):
 		0:
 			file_select.show()
 		1:
-			pass
+			extracted_select.show()
 
 
-func _on_native_file_dialog_file_selected(path: String):
-	var file = FileAccess.open(path, FileAccess.READ)
-	var contents = JSON.parse_string(file.get_as_text())
+func _on_file_select_dir_selected(dir: String):
+	var data_path = dir + "/" + "www" + "/" + "data"
+	var d: DirAccess = DirAccess.open(data_path)
+	var files = d.get_files()
 	
-	var file_name = path.get_file().split(".")[0]
-
+	var split_dir = dir.split("/")
 	
-	if "Map" in file_name:
-		if "MapInfo" in file_name:
-			return
-		extract_selected_file(contents["events"], file_name)
+	var g_name: String = split_dir[len(split_dir) - 1]
 	
-	for f_name in valid_files:
-		if file_name in f_name:
-			extract_selected_file(contents, file_name)
+	var dir_info = {}
+	
+	for file in files:
+		var f_name = file.split(".")[0]
+		dir_info[f_name] = data_path + "/" + file
+	
+	extract_files(dir_info, g_name)
+	
+	emit_signal("extracted_game")
 
 
-func extract_selected_file(data, file_name):
-	d = Extractor.extract(data, file_name)
-	n = file_name
-	emit_signal("dat")
+func extract_files(paths: Dictionary, game_name: String):
+	var extract_dir = "./" + game_name + "/"
+	var new_dir = DirAccess.open("./")
+	new_dir.make_dir(game_name)
+	Data.current_dir = "./" + game_name
+	
+	for file_name in paths:
+		var file = FileAccess.open(paths[file_name], FileAccess.READ)
+		var contents = JSON.parse_string(file.get_as_text())
+		
+		var extracted_data = null
+		
+		if "System" in file_name or "CommonEvents" in file_name:
+			extracted_data = Extractor.extract(contents, file_name)
+		
+		elif "Map" in file_name:
+			if "MapInfo" in file_name:
+				continue
+			extracted_data = Extractor.extract(contents["events"], file_name)
+		
+		if extracted_data == null:
+			for f_name in valid_files:
+				if file_name in f_name:
+					extracted_data = Extractor.extract(contents, file_name)
+					break
+		
+		if extracted_data != null:
+			var extract_file = FileAccess.open(extract_dir + file_name + ".json", FileAccess.WRITE)
+			extract_file.store_line(JSON.stringify(extracted_data))
+			Data.file_info[file_name] = len(extracted_data)
+			Data.files[file_name] = extracted_data
+
+
+func _on_extracted_select_dir_selected(dir):
+	var extract_dir = DirAccess.open(dir)
+	var files = extract_dir.get_files()
+	
+	for file in files:
+		var path = dir + "/" + file
+		var contents = JSON.parse_string(FileAccess.open(path, FileAccess.READ).get_as_text())
+		var file_name = file.split(".")[0]
+		if "Map" or "CommonEvents" in file_name or file_name not in "System":
+			Data.file_info[file_name] = len(contents)
+		Data.files[file_name] = contents
+	emit_signal("extracted_game")
+	

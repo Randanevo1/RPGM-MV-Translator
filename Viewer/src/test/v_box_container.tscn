@@ -1,16 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://b67233uo5rj7r"]
+[gd_scene load_steps=6 format=3 uid="uid://b67233uo5rj7r"]
 
 [ext_resource type="PackedScene" uid="uid://bjst4o6gm1itx" path="res://src/tool bar/tool_bar.tscn" id="1_oi5st"]
 [ext_resource type="Script" path="res://src/test/v_box_container.gd" id="1_pvn65"]
 [ext_resource type="PackedScene" uid="uid://b53jp2xrto5aw" path="res://src/page/page.tscn" id="2_f3gww"]
 [ext_resource type="PackedScene" uid="uid://c8w5t5ugc0666" path="res://src/file container/file_container.tscn" id="4_alt0l"]
+[ext_resource type="PackedScene" uid="uid://c2vbuq6ukux3y" path="res://src/system_view/system.tscn" id="5_tbff5"]
 
-[node name="VBoxContainer" type="VBoxContainer"]
+[node name="main" type="VBoxContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_pvn65")
 
@@ -19,6 +21,12 @@ layout_mode = 2
 
 [node name="tool_bar" parent="HBoxContainer" instance=ExtResource("1_oi5st")]
 layout_mode = 2
+
+[node name="extracted_select" parent="HBoxContainer/tool_bar/HBoxContainer/file" index="2"]
+title = "Open a Directory"
+
+[node name="tools" parent="HBoxContainer/tool_bar/HBoxContainer" index="1"]
+visible = false
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -30,6 +38,7 @@ layout_mode = 2
 size_flags_horizontal = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer2"]
+visible = false
 clip_contents = false
 layout_mode = 2
 size_flags_horizontal = 3
@@ -43,7 +52,16 @@ size_flags_vertical = 3
 [node name="pages" parent="HBoxContainer2/ScrollContainer/PanelContainer" instance=ExtResource("2_f3gww")]
 layout_mode = 2
 
-[connection signal="dat" from="HBoxContainer/tool_bar/HBoxContainer/file" to="." method="_on_file_dat"]
+[node name="ScrollContainer2" type="ScrollContainer" parent="HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="system" parent="HBoxContainer2/ScrollContainer2" instance=ExtResource("5_tbff5")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="extracted_game" from="HBoxContainer/tool_bar/HBoxContainer/file" to="." method="_on_file_extracted_game"]
 [connection signal="selected_entry" from="HBoxContainer2/file_container" to="." method="_on_file_container_selected_entry"]
 
 [editable path="HBoxContainer/tool_bar"]

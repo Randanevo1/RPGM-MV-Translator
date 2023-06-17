@@ -11,10 +11,12 @@ func setup_tree(files: Array):
 	tree.hide_root = true
 	
 	for file in files:
+		
 		var file_item = tree.create_item(root)
 		file_item.collapsed = true
 		file_item.set_text(0, file)
 		file_item.set_metadata(0, file)
+		
 		if file in "System":
 			
 			for key in Data.files["System"].keys():
@@ -31,11 +33,15 @@ func setup_tree(files: Array):
 				entry.set_text(0, key)
 			continue
 		
-		for id in Data.file_info[file]:
+		if file in "CommonEvents" or "Map" in file:
 			
-			var entry: TreeItem = tree.create_item(file_item)
-			entry.set_metadata(0, {"file":file, "id":id})
-			entry.set_text(0, "entry %03d" % id)
+			for id in Data.file_info[file]:
+				
+				var entry: TreeItem = tree.create_item(file_item)
+				entry.set_metadata(0, {"file":file, "id":id})
+				entry.set_text(0, "entry %03d" % id)
+		else:
+			file_item.set_metadata(0, {"file":file, "id":-1})
 
 
 func _on_tree_item_mouse_selected(_position, _mouse_button_index):

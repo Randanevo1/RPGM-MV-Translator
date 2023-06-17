@@ -31,7 +31,7 @@ access = 2
 filters = PackedStringArray("*.json")
 
 [node name="extracted_select" type="NativeFileDialog" parent="HBoxContainer/file"]
-title = "Open extracted data folder"
+title = "Open a Directory"
 file_mode = 2
 access = 2
 

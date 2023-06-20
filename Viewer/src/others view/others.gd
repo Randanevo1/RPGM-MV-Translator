@@ -1,7 +1,8 @@
 extends PanelContainer
 class_name Others_view
 
-@onready var main_cont    = $ScrollContainer/main_cont
+@onready var margin_container = $ScrollContainer/MarginContainer
+@onready var main_cont    = $ScrollContainer/MarginContainer/main_cont
 @onready var others_entry = preload("res://src/others view/others_entry.tscn")
 
 

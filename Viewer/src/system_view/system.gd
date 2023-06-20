@@ -1,7 +1,7 @@
 extends PanelContainer
 class_name System_view
 
-@onready var main_cont = $main_cont
+@onready var main_cont = $MarginContainer/main_cont
 @onready var key_value = preload("res://src/key value row/key_value.tscn")
 
 func clear():

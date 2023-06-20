@@ -1,7 +1,7 @@
 extends PanelContainer
 class_name Common_event_view
 
-@onready var main_cont  = $MarginContainer/ScrollContainer/main_cont
+@onready var main_cont  = $MarginContainer/ScrollContainer/MarginContainer2/main_cont
 @onready var block_tscn = preload("res://src/block/block.tscn")
 
 

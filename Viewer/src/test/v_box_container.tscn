@@ -27,48 +27,64 @@ layout_mode = 2
 [node name="tools" parent="HBoxContainer/tool_bar/HBoxContainer" index="1"]
 visible = false
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="file_container" parent="HBoxContainer2" instance=ExtResource("4_alt0l")]
-custom_minimum_size = Vector2(150, 0)
+[node name="file_container" parent="MarginContainer/HBoxContainer2" instance=ExtResource("4_alt0l")]
+custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 1
 
-[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer2"]
-clip_contents = false
+[node name="VSeparator" type="VSeparator" parent="MarginContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer2/ScrollContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer2/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="pages" parent="HBoxContainer2/ScrollContainer/PanelContainer" instance=ExtResource("2_f3gww")]
+[node name="pages" parent="MarginContainer/HBoxContainer2/ScrollContainer/PanelContainer" instance=ExtResource("2_f3gww")]
 layout_mode = 2
 
-[node name="ScrollContainer2" type="ScrollContainer" parent="HBoxContainer2"]
+[node name="ScrollContainer2" type="ScrollContainer" parent="MarginContainer/HBoxContainer2"]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="system" parent="HBoxContainer2/ScrollContainer2" instance=ExtResource("5_tbff5")]
+[node name="system" parent="MarginContainer/HBoxContainer2/ScrollContainer2" instance=ExtResource("5_tbff5")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="common_events" parent="HBoxContainer2" instance=ExtResource("6_55u8d")]
+[node name="common_events" parent="MarginContainer/HBoxContainer2" instance=ExtResource("6_55u8d")]
 visible = false
+clip_contents = true
 layout_mode = 2
 
-[node name="others" parent="HBoxContainer2" instance=ExtResource("7_ncedm")]
+[node name="others" parent="MarginContainer/HBoxContainer2" instance=ExtResource("7_ncedm")]
 visible = false
+clip_contents = true
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 2
 
 [connection signal="extracted_game" from="HBoxContainer/tool_bar/HBoxContainer/file" to="." method="_on_file_extracted_game"]
-[connection signal="selected_entry" from="HBoxContainer2/file_container" to="." method="_on_file_container_selected_entry"]
+[connection signal="selected_entry" from="MarginContainer/HBoxContainer2/file_container" to="." method="_on_file_container_selected_entry"]
 
 [editable path="HBoxContainer/tool_bar"]

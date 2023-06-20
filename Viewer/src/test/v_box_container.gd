@@ -2,15 +2,15 @@ extends VBoxContainer
 
 
 @onready var file = $HBoxContainer/tool_bar/HBoxContainer/file
-@onready var file_container: File_list = $HBoxContainer2/file_container
+@onready var file_container: File_list = $MarginContainer/HBoxContainer2/file_container
 
-@onready var system: System_view = $HBoxContainer2/ScrollContainer2/system
-@onready var common_events: Common_event_view = $HBoxContainer2/common_events
-@onready var others: Others_view = $HBoxContainer2/others
-@onready var pages: Page = $HBoxContainer2/ScrollContainer/PanelContainer/pages
+@onready var system: System_view = $MarginContainer/HBoxContainer2/ScrollContainer2/system
+@onready var common_events: Common_event_view = $MarginContainer/HBoxContainer2/common_events
+@onready var others: Others_view = $MarginContainer/HBoxContainer2/others
+@onready var pages: Page = $MarginContainer/HBoxContainer2/ScrollContainer/PanelContainer/pages
 
-@onready var page_cont = $HBoxContainer2/ScrollContainer
-@onready var sys_cont  = $HBoxContainer2/ScrollContainer2
+@onready var page_cont = $MarginContainer/HBoxContainer2/ScrollContainer
+@onready var sys_cont  = $MarginContainer/HBoxContainer2/ScrollContainer2
 
 var data
 var current_info = {"file":"", "id":9999, "key":""}
@@ -19,7 +19,9 @@ var current_info = {"file":"", "id":9999, "key":""}
 func _on_file_container_selected_entry(dict: Dictionary):
 	if dict["file"] == "System":
 		sys_cont.visible   = true
-		page_cont.visible  = false
+		page_cont.visible     = false
+		common_events.visible = false
+		others.visible        = false
 		
 		system.clear()
 		system.setup_view(dict["key"])

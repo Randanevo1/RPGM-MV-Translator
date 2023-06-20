@@ -20,6 +20,15 @@ theme_override_constants/margin_right = 5
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="main_cont" type="VBoxContainer" parent="MarginContainer/ScrollContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="main_cont" type="VBoxContainer" parent="MarginContainer/ScrollContainer/MarginContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3

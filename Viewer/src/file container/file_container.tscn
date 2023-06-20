@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://src/file container/file_container.gd" id="1_6kw5e"]
 
 [node name="file_container" type="MarginContainer"]
+clip_contents = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -10,15 +11,17 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
 script = ExtResource("1_6kw5e")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
-clip_contents = false
 layout_mode = 2
 horizontal_scroll_mode = 0
 
 [node name="tree" type="Tree" parent="ScrollContainer"]
-clip_contents = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3

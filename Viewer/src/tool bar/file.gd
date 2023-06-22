@@ -54,10 +54,12 @@ func _on_file_select_dir_selected(dir: String):
 
 
 func extract_files(paths: Dictionary, game_name: String):
-	var extract_dir = "./" + game_name + "/"
+	var extract_dir = "./" + game_name + "/" + "extracted data" +"/"
 	var new_dir = DirAccess.open("./")
 	new_dir.make_dir(game_name)
-	Data.current_dir = "./" + game_name
+	new_dir.make_dir("./" + game_name + "/" + "extracted data")
+	Data.current_dir = "./" + game_name + "/" + "extracted data"
+	Data.game_name = game_name
 	
 	for file_name in paths:
 		var file = FileAccess.open(paths[file_name], FileAccess.READ)
@@ -84,6 +86,8 @@ func extract_files(paths: Dictionary, game_name: String):
 			extract_file.store_line(JSON.stringify(extracted_data))
 			Data.file_info[file_name] = len(extracted_data)
 			Data.files[file_name] = extracted_data
+	
+	Data_converter.convert_data()
 
 
 func _on_extracted_select_dir_selected(dir):

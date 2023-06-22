@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 
 Extractor="*res://tools/extractor/extractor.gd"
 Data="*res://src/singleton/Data.gd"
+Data_converter="*res://tools/Converter/converter.gd"
 
 [dotnet]
 

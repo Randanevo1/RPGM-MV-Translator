@@ -48,18 +48,21 @@ size_flags_horizontal = 1
 [node name="VSeparator" type="VSeparator" parent="MarginContainer/HBoxContainer2"]
 layout_mode = 2
 
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer2"]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="pages" parent="MarginContainer/HBoxContainer2/PanelContainer" instance=ExtResource("2_f3gww")]
+clip_contents = true
+layout_mode = 2
+
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/HBoxContainer2"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer2/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="pages" parent="MarginContainer/HBoxContainer2/ScrollContainer/PanelContainer" instance=ExtResource("2_f3gww")]
-layout_mode = 2
 
 [node name="ScrollContainer2" type="ScrollContainer" parent="MarginContainer/HBoxContainer2"]
 visible = false

@@ -7,9 +7,9 @@ extends VBoxContainer
 @onready var system: System_view = $MarginContainer/HBoxContainer2/ScrollContainer2/system
 @onready var common_events: Common_event_view = $MarginContainer/HBoxContainer2/common_events
 @onready var others: Others_view = $MarginContainer/HBoxContainer2/others
-@onready var pages: Page = $MarginContainer/HBoxContainer2/ScrollContainer/PanelContainer/pages
+@onready var pages: Page = $MarginContainer/HBoxContainer2/PanelContainer/pages
 
-@onready var page_cont = $MarginContainer/HBoxContainer2/ScrollContainer
+@onready var page_cont = $MarginContainer/HBoxContainer2/PanelContainer
 @onready var sys_cont  = $MarginContainer/HBoxContainer2/ScrollContainer2
 
 var data

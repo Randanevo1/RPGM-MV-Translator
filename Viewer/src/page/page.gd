@@ -3,6 +3,7 @@ class_name Page
 
 @onready var block = preload("res://src/block/block.tscn")
 @onready var m_vbox = preload("res://src/margin vbox/margin_vbox.tscn")
+@onready var scroll = preload("res://src/scroll preset/scroll_preset.tscn")
 @onready var page = $"."
 
 
@@ -18,8 +19,10 @@ func setup_page(page_arr: Array):
 	for pag in page_arr:
 		
 		var marg: M_Vbox = m_vbox.instantiate()
-		marg.name = "page" + str(page_count)
-		page.add_child(marg)
+		var scroll_cont = scroll.instantiate()
+		scroll_cont.name = "page" + str(page_count)
+		page.add_child(scroll_cont)
+		scroll_cont.add_child(marg)
 		
 		var block_count = 0
 		

@@ -17,11 +17,13 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 0
 text = "File"
-item_count = 2
+item_count = 3
 popup/item_0/text = "Extract game"
 popup/item_0/id = 0
 popup/item_1/text = "View data"
 popup/item_1/id = 1
+popup/item_2/text = "Apply"
+popup/item_2/id = 2
 script = ExtResource("1_mwjjj")
 
 [node name="file_select" type="NativeFileDialog" parent="HBoxContainer/file"]
@@ -35,6 +37,11 @@ title = "Open a Directory"
 file_mode = 2
 access = 2
 
+[node name="convert_select" type="NativeFileDialog" parent="HBoxContainer/file"]
+title = "Open a Directory"
+file_mode = 2
+access = 2
+
 [node name="tools" type="MenuButton" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
@@ -43,3 +50,4 @@ text = "Tools"
 [connection signal="dir_selected" from="HBoxContainer/file/file_select" to="HBoxContainer/file" method="_on_file_select_dir_selected"]
 [connection signal="file_selected" from="HBoxContainer/file/file_select" to="HBoxContainer/file" method="_on_native_file_dialog_file_selected"]
 [connection signal="dir_selected" from="HBoxContainer/file/extracted_select" to="HBoxContainer/file" method="_on_extracted_select_dir_selected"]
+[connection signal="dir_selected" from="HBoxContainer/file/convert_select" to="HBoxContainer/file" method="_on_convert_select_dir_selected"]

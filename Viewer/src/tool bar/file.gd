@@ -16,6 +16,7 @@ var valid_files = [
 
 @onready var file_select:      NativeFileDialog = $"file_select"
 @onready var extracted_select: NativeFileDialog = $extracted_select
+@onready var convert_select = $convert_select
 
 signal extracted_game
 
@@ -31,6 +32,8 @@ func button_selected(id):
 			file_select.show()
 		1:
 			extracted_select.show()
+		2:
+			convert_select.show()
 
 
 func _on_file_select_dir_selected(dir: String):
@@ -54,10 +57,13 @@ func _on_file_select_dir_selected(dir: String):
 
 
 func extract_files(paths: Dictionary, game_name: String):
-	var extract_dir = "./" + game_name + "/" + "extracted data" +"/"
+	var extract_dir = "./" + game_name + "/" + "extracted data" + "/"
+	var org_dir     = "./" + game_name + "/" + "original data"  + "/"
 	var new_dir = DirAccess.open("./")
+	
 	new_dir.make_dir(game_name)
 	new_dir.make_dir("./" + game_name + "/" + "extracted data")
+	new_dir.make_dir("./" + game_name + "/" + "original data")
 	Data.current_dir = "./" + game_name + "/" + "extracted data"
 	Data.game_name = game_name
 	
@@ -83,7 +89,11 @@ func extract_files(paths: Dictionary, game_name: String):
 		
 		if extracted_data != null:
 			var extract_file = FileAccess.open(extract_dir + file_name + ".json", FileAccess.WRITE)
+			var org_files    = FileAccess.open(org_dir     + file_name + ".json", FileAccess.WRITE)
+			
 			extract_file.store_line(JSON.stringify(extracted_data))
+			org_files.store_line(JSON.stringify(contents))
+			
 			Data.file_info[file_name] = len(extracted_data)
 			Data.files[file_name] = extracted_data
 	
@@ -93,6 +103,8 @@ func extract_files(paths: Dictionary, game_name: String):
 func _on_extracted_select_dir_selected(dir):
 	var extract_dir = DirAccess.open(dir)
 	var files = extract_dir.get_files()
+	var split_dir = dir.split("/")
+	Data.game_name = split_dir[len(split_dir) - 2]
 	
 	for file in files:
 		var path = dir + "/" + file
@@ -103,3 +115,8 @@ func _on_extracted_select_dir_selected(dir):
 		Data.files[file_name] = contents
 	emit_signal("extracted_game")
 	
+
+
+func _on_convert_select_dir_selected(_dir):
+	
+	DeConverter.de_convert()

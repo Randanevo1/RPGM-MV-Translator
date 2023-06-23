@@ -21,6 +21,8 @@ config/icon="res://icon.svg"
 Extractor="*res://tools/extractor/extractor.gd"
 Data="*res://src/singleton/Data.gd"
 Data_converter="*res://tools/Converter/converter.gd"
+DeConverter="*res://tools/Converter/de_converter.gd"
+Applier="*res://tools/applier/applier.gd"
 
 [dotnet]
 

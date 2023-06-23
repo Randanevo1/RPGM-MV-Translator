@@ -1,7 +1,7 @@
 extends Node
 class_name Converter
 
-const cell_template = {"text":[], "cell name":"TL"}
+const cell_template = {"text":[null], "cell name":"TL"}
 
 
 func convert_data() -> void:
@@ -45,7 +45,7 @@ func others_handler(entry: Dictionary) -> Dictionary:
 	var chunk = {"id":entry["id"]}
 	for key in entry.keys():
 		if key != "id":
-			chunk[key] = {"original text":entry[key], "cells":[]}
+			chunk[key] = {"original text":entry[key], "cells":[{"text":null, "cell_name":""}]}
 	return chunk
 
 
@@ -84,7 +84,7 @@ func ce_handler(entry: Dictionary) -> Dictionary:
 func system_handler(sys_data: Dictionary) -> Dictionary:
 	
 	var converted = {
-		"gameTitle": {"original text":sys_data["gameTitle"], "cell1":""},
+		"gameTitle": {"original text":sys_data["gameTitle"], "cells":[cell_template]},
 		"skillTypes":  arr_looper(sys_data["skillTypes"]),
 		"weaponTypes": arr_looper(sys_data["weaponTypes"]),
 		"equipTypes":  arr_looper(sys_data["equipTypes"]),
@@ -97,7 +97,7 @@ func system_handler(sys_data: Dictionary) -> Dictionary:
 	}
 	
 	for key in sys_data["terms"]["messages"]:
-		var converted_key = {"original text":sys_data["terms"]["messages"], "cells":[]}
+		var converted_key = {"original text":sys_data["terms"]["messages"][key], "cells":[{"text":null, "cell_name":""}]}
 		converted["messages"][key] = converted_key
 	
 	return converted
@@ -108,7 +108,7 @@ func arr_looper(arr: Array):
 	var converted_arr = []
 	
 	for value in arr:
-		converted_arr.append({"original text":value, "cells":[cell_template]})
+		converted_arr.append({"original text":value, "cells":[{"text":null, "cell_name":""}]})
 	return converted_arr
 
 ##--------------------------------------------------------##
@@ -134,6 +134,7 @@ func convert_block(block: Array):
 			if line["code"] == 102:
 				for choice in line["parameters"][0]:
 					chunk["original text"].append(choice)
+				chunk["info"]["misc"] = line["parameters"].slice(1)
 			else:
 				chunk["original text"].append(line["parameters"][0])
 		

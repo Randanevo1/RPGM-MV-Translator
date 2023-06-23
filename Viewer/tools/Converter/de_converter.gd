@@ -2,11 +2,13 @@ extends Node
 
 
 func de_convert():
+	
 	var converted_folder = "./" + Data.game_name +"/converted data"
 	var files: Dictionary = Data.files
 	var to_load = DirAccess.get_files_at(converted_folder)
 	var converted_files = {}
 	var de_converted_files = {}
+	
 	for file in to_load:
 		var path = converted_folder + "/" + file
 		var contents = JSON.parse_string(FileAccess.open(path, FileAccess.READ).get_as_text())
@@ -37,11 +39,17 @@ func id_looper(extracted_entry_array: Array, converted_entry_array: Array, entry
 	
 	var convert_tracker = 0
 	for entry in extracted_entry_array:
-		if len(converted_entry_array) == 0:
+		if convert_tracker > len(converted_entry_array) - 1:
+			break
+		
+		if len(converted_entry_array[convert_tracker]) == 0:
 			continue
+		
 		if entry["id"] == converted_entry_array[convert_tracker]["id"]:
+
 			var data = entry_handler.call(entry, converted_entry_array[convert_tracker])
 			de_converted_data.append(data)
+			convert_tracker += 1
 	
 	return de_converted_data
 
@@ -63,6 +71,7 @@ func ce_entry_handler(extract_data: Dictionary, convert_data: Dictionary):
 
 func map_entry_handler(extract_data: Dictionary, convert_data: Dictionary):
 	
+	var page_track = 0
 	for page in convert_data["pages"]:
 		
 		var current_block = 0
@@ -70,9 +79,12 @@ func map_entry_handler(extract_data: Dictionary, convert_data: Dictionary):
 		for block in page["list"]:
 			var de_converted_block = de_convert_block(block)
 			
+			
 			if len(de_converted_block) > 0:
-				page["list"][current_block] = de_converted_block
+				extract_data["pages"][page_track]["list"][current_block].clear() 
+				extract_data["pages"][page_track]["list"][current_block] = de_converted_block
 			current_block += 1
+		page_track += 1
 	
 	return extract_data
 
@@ -145,14 +157,13 @@ func arr_looper(arr: Array):
 func others_entry_handler(_extact_entry:Dictionary, converted_entry: Dictionary):
 	
 	var de_convert_entry = {"id":converted_entry["id"]}
-	var used_cell = false
 	
 	for key in converted_entry.keys():
-		
+		var used_cell = false
 		if key != "id":
 			
 			if len(converted_entry[key]["cells"]) > 0:
-				pass
+				
 				converted_entry[key]["cells"].reverse()
 				for cell in converted_entry[key]["cells"]:
 					

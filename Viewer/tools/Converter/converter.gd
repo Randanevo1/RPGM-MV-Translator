@@ -53,8 +53,8 @@ func map_handler(entry: Dictionary):
 	
 	var converted_entry = {"id":entry["id"], "pages":[]}
 	
-	var holder = []
 	for page in entry["pages"]:
+		var holder = []
 		
 		for block in page["list"]:
 			
@@ -84,7 +84,7 @@ func ce_handler(entry: Dictionary) -> Dictionary:
 func system_handler(sys_data: Dictionary) -> Dictionary:
 	
 	var converted = {
-		"gameTitle": {"original text":sys_data["gameTitle"], "cells":[cell_template]},
+		"gameTitle": {"original text":sys_data["gameTitle"], "cells":[{"text":null, "cell name":"TL"}]},
 		"skillTypes":  arr_looper(sys_data["skillTypes"]),
 		"weaponTypes": arr_looper(sys_data["weaponTypes"]),
 		"equipTypes":  arr_looper(sys_data["equipTypes"]),

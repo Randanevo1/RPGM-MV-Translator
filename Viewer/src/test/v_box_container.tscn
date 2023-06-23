@@ -84,9 +84,6 @@ visible = false
 clip_contents = true
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="."]
-layout_mode = 2
-
 [connection signal="extracted_game" from="HBoxContainer/tool_bar/HBoxContainer/file" to="." method="_on_file_extracted_game"]
 [connection signal="selected_entry" from="MarginContainer/HBoxContainer2/file_container" to="." method="_on_file_container_selected_entry"]
 

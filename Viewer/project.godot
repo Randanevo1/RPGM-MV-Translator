@@ -23,10 +23,23 @@ Data="*res://src/singleton/Data.gd"
 Data_converter="*res://tools/Converter/converter.gd"
 DeConverter="*res://tools/Converter/de_converter.gd"
 Applier="*res://tools/applier/applier.gd"
+FileEnum="*res://src/singleton/file_enum.gd"
 
 [dotnet]
 
 project/assembly_name="Data viewer"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/native_dialogs/plugin.cfg")
+
+[input]
+
+LMB={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(113, 13),"global_position":Vector2(117, 56),"factor":1.0,"button_index":1,"pressed":true,"double_click":false,"script":null)
+]
+}
 
 [rendering]
 

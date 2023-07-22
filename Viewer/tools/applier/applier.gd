@@ -27,7 +27,7 @@ func apply(files_to_apply: Dictionary):
 		if file in "CommonEvents":
 			data = id_looper(org_files[file], files_to_apply[file], ce_entry_handler)
 		elif "Map" in file:
-			var h = id_looper(org_files[file]["events"], files_to_apply[file], map_entry_handler)
+			var _h = id_looper(org_files[file]["events"], files_to_apply[file], map_entry_handler)
 			data = org_files[file]
 		elif file in "System":
 			data = system_handler(org_files[file], files_to_apply[file])

@@ -46,4 +46,6 @@ func setup_tree(files: Array):
 
 func _on_tree_item_mouse_selected(_position, _mouse_button_index):
 	var item: TreeItem = tree.get_selected()
+	if typeof(item.get_metadata(0)) == TYPE_STRING:
+		return
 	emit_signal("selected_entry", item.get_metadata(0))

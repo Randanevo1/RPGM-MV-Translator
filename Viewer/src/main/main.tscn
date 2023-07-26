@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://dqebgwtsvimo1"]
+
+[ext_resource type="PackedScene" uid="uid://bjst4o6gm1itx" path="res://src/tool bar/tool_bar.tscn" id="1_snaf8"]
+[ext_resource type="Script" path="res://src/main/main.gd" id="1_xgxop"]
+[ext_resource type="PackedScene" uid="uid://cuo4hrlbi6mad" path="res://src/file_select/file_select.tscn" id="3_lnytl"]
+[ext_resource type="PackedScene" uid="uid://dqa4sli25jwyo" path="res://src/views/list_view/list_view.tscn" id="4_dhugl"]
+[ext_resource type="PackedScene" uid="uid://dldq0ga1ik6uj" path="res://src/views/others view/others_view.tscn" id="5_47xcn"]
+
+[node name="main" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xgxop")
+
+[node name="tool_bar" parent="." instance=ExtResource("1_snaf8")]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="file_select" parent="HBoxContainer" instance=ExtResource("3_lnytl")]
+clip_contents = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="list_view" parent="HBoxContainer" instance=ExtResource("4_dhugl")]
+visible = false
+layout_mode = 2
+
+[node name="others_view" parent="HBoxContainer" instance=ExtResource("5_47xcn")]
+visible = false
+layout_mode = 2
+
+[connection signal="translating" from="tool_bar" to="." method="_on_tool_bar_translating"]
+[connection signal="selected_entry" from="HBoxContainer/file_select" to="." method="_on_file_select_selected_entry"]
+
+[editable path="tool_bar"]

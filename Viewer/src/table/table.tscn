@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://src/table/table.gd" id="1_qgwea"]
 
-[node name="table" type="ScrollContainer"]
+[node name="table" type="GridContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -11,11 +11,3 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_qgwea")
-
-[node name="GridContainer" type="GridContainer" parent="."]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/h_separation = 5
-theme_override_constants/v_separation = 5
-columns = 2

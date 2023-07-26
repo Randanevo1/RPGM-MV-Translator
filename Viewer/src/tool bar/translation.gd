@@ -13,12 +13,15 @@ func button_selected(id):
 	match id:
 		0:
 			proj_select.show()
+		2:
+			Data.save_translation()
 
 
 func _on_proj_select_dir_selected(dir):
 	
 	var conv_dir_path = dir + "/" + "converted data"
 	var conv_dir = DirAccess.open(conv_dir_path)
+	Data.current_dir = conv_dir_path
 	
 	for file in conv_dir.get_files():
 		var file_name = file.split(".")[0]
@@ -26,7 +29,6 @@ func _on_proj_select_dir_selected(dir):
 		var contents = JSON.parse_string(data)
 		Data.translation[file_name] = contents
 		Data.file_info[file_name]   = len(contents)
-	Data.translating = true
 	emit_signal("translating")
 
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b7t46m242ua83"]
 
-[ext_resource type="Texture2D" uid="uid://cpflfu1c5ed4f" path="res://Resize-Icon-SVG-0nwds.svg" id="1_it3ix"]
+[ext_resource type="Texture2D" uid="uid://c6vtj30m7b8j1" path="res://Resize-Icon-SVG-0nwds.svg" id="1_it3ix"]
 [ext_resource type="Script" path="res://src/cell edit/resizer.gd" id="2_a7t5e"]
 
 [node name="resizer" type="TextureButton"]

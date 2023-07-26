@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bjst4o6gm1itx"]
+[gd_scene load_steps=4 format=3 uid="uid://bjst4o6gm1itx"]
 
+[ext_resource type="Script" path="res://src/tool bar/tool_bar.gd" id="1_0vk1y"]
 [ext_resource type="Script" path="res://src/tool bar/file.gd" id="1_mwjjj"]
 [ext_resource type="Script" path="res://src/tool bar/translation.gd" id="2_428db"]
 
@@ -10,6 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
+script = ExtResource("1_0vk1y")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
@@ -47,11 +49,13 @@ access = 2
 layout_mode = 2
 size_flags_vertical = 0
 text = "Translation"
-item_count = 2
-popup/item_0/text = "Select converted folder"
+item_count = 3
+popup/item_0/text = "Select project folder"
 popup/item_0/id = 0
 popup/item_1/text = "Apply TL"
 popup/item_1/id = 1
+popup/item_2/text = "Save"
+popup/item_2/id = 2
 script = ExtResource("2_428db")
 
 [node name="proj_select" type="NativeFileDialog" parent="HBoxContainer/translation"]
@@ -59,7 +63,9 @@ title = "Open a Directory"
 file_mode = 2
 access = 2
 
+[connection signal="extracted_game" from="HBoxContainer/file" to="." method="_on_file_extracted_game"]
 [connection signal="dir_selected" from="HBoxContainer/file/file_select" to="HBoxContainer/file" method="_on_file_select_dir_selected"]
 [connection signal="dir_selected" from="HBoxContainer/file/extracted_select" to="HBoxContainer/file" method="_on_extracted_select_dir_selected"]
 [connection signal="dir_selected" from="HBoxContainer/file/convert_select" to="HBoxContainer/file" method="_on_convert_select_dir_selected"]
+[connection signal="translating" from="HBoxContainer/translation" to="." method="_on_translation_translating"]
 [connection signal="dir_selected" from="HBoxContainer/translation/proj_select" to="HBoxContainer/translation" method="_on_proj_select_dir_selected"]

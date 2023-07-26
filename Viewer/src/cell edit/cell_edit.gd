@@ -2,7 +2,7 @@ extends TextEdit
 class_name CellEdit
 
 var cell_data: Dictionary
-var type: FileEnum.file
+var type: FileType.type
 
 
 func _on_text_changed():
@@ -11,7 +11,7 @@ func _on_text_changed():
 
 func get_lines():
 	
-	if type == FileEnum.file.Other or type == FileEnum.file.System:
+	if type == FileType.type.Other or type == FileType.type.System:
 		
 		return self.text
 	else:

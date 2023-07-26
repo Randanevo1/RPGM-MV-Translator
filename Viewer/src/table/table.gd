@@ -1,13 +1,13 @@
-extends ScrollContainer
+extends GridContainer
 class_name Table
 
-@onready var table: GridContainer = $GridContainer
+@onready var table: GridContainer = self
 @onready var title_label          = preload("res://src/title/title.tscn")
 @onready var cell_edit            = preload("res://src/cell edit/cell_edit.tscn")
 @onready var choice_cell          = preload("res://src/choice cell/choice_cell.tscn")
 
 
-func setup_table(chunk, type: FileEnum.file):
+func setup_table(chunk, type: FileType.type):
 	
 	var headers = []
 	
@@ -26,11 +26,11 @@ func setup_table(chunk, type: FileEnum.file):
 
 #----#
 
-func get_headers(chunk, type: FileEnum.file):
+func get_headers(chunk, type: FileType.type):
 	
 	var headers = []
 	
-	if type == FileEnum.file.Other:
+	if type == FileType.type.Other:
 		
 		for key in chunk.keys():
 			
@@ -43,7 +43,7 @@ func get_headers(chunk, type: FileEnum.file):
 			
 			return headers
 	
-	elif type == FileEnum.file.System:
+	elif type == FileType.type.System:
 		
 		if typeof(chunk) == TYPE_ARRAY:
 			
@@ -55,6 +55,10 @@ func get_headers(chunk, type: FileEnum.file):
 		else:
 			
 			for key in chunk.keys():
+				
+				if "original text" in chunk.keys():
+					headers.append(chunk["cells"][0]["cell name"])
+					return headers
 				
 				for cell in chunk[key]["cells"]:
 					
@@ -74,11 +78,11 @@ func get_headers(chunk, type: FileEnum.file):
 				return headers
 
 
-func get_data(shard, type: FileEnum.file):
+func get_data(shard, type: FileType.type):
 	
 	var data = []
 	
-	if type == FileEnum.file.Other:
+	if type == FileType.type.Other:
 		
 		for key in shard.keys():
 			
@@ -133,14 +137,16 @@ func create_headers(headers: Array) -> void:
 		title.text = header
 
 
-func create_rows(row_data, type: FileEnum.file) -> void:
+func create_rows(row_data, type: FileType.type) -> void:
 	
 	
-	if type == FileEnum.file.Other or type == FileEnum.file.System:
+	if type == FileType.type.Other or type == FileType.type.System:
 		
 		if typeof(row_data) == TYPE_DICTIONARY:
 			
 			for key in row_data.keys():
+				
+				var is_game_title = false
 				
 				if key == "id":
 					continue
@@ -151,13 +157,23 @@ func create_rows(row_data, type: FileEnum.file) -> void:
 				table.add_child(atr)
 				table.add_child(og_txt)
 				
-				atr.text    = key
-				og_txt.text = row_data[key]["original text"]
+				if "original text" in row_data.keys():
+					atr.text    = "GameTitle"
+					og_txt.text = row_data["original text"]
+					is_game_title = true
+				else:
+					atr.text    = key
+					og_txt.text = row_data[key]["original text"]
 				
 				atr.editable    = false
 				og_txt.editable = false
 				
-				create_cells(row_data[key]["cells"], type)
+				
+				if is_game_title == false:
+					create_cells(row_data[key]["cells"], type)
+				else:
+					create_cells(row_data["cells"], type)
+					break
 		
 		else:
 			
@@ -166,7 +182,10 @@ func create_rows(row_data, type: FileEnum.file) -> void:
 				var og_txt: CellEdit = cell_edit.instantiate()
 				og_txt.editable = false
 				table.add_child(og_txt)
-				og_txt.text = shard["original text"]
+				if shard["original text"] == null:
+					og_txt.text = ""
+				else:
+					og_txt.text = shard["original text"]
 				
 				create_cells(shard["cells"], type)
 		
@@ -175,6 +194,9 @@ func create_rows(row_data, type: FileEnum.file) -> void:
 		for shard in row_data:
 			
 			if len(shard) != 0:
+				
+				if shard[0]["original text"][0] == "" and len(shard[0]["original text"]) == 1:
+					continue
 				
 				if shard[0]["info"]["code"] == 102:
 					
@@ -201,7 +223,7 @@ func create_rows(row_data, type: FileEnum.file) -> void:
 					create_cells(shard[0]["cells"], type)
 
 
-func create_cells(cells: Array, type: FileEnum.file) -> void:
+func create_cells(cells: Array, type: FileType.type) -> void:
 	
 	for cell in cells:
 				
@@ -209,7 +231,7 @@ func create_cells(cells: Array, type: FileEnum.file) -> void:
 				
 				table.add_child(new_cell)
 				
-				if type == FileEnum.file.Other or type == FileEnum.file.System:
+				if type == FileType.type.Other or type == FileType.type.System:
 					
 					if cell["text"] == null:
 						new_cell.text = ""

@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://ciqeqspy8lgtm"]
+
+[node name="template_margin" type="MarginContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="cont" type="ScrollContainer" parent="."]
+layout_mode = 2

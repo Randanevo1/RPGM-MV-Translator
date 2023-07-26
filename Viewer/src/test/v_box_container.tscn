@@ -48,6 +48,9 @@ mouse_default_cursor_shape = 7
 [node name="ScrollContainer" parent="MarginContainer/HBoxContainer2/file_container" index="0"]
 mouse_filter = 1
 
+[node name="tree" parent="MarginContainer/HBoxContainer2/file_container/ScrollContainer" index="0"]
+hide_root = true
+
 [node name="VSeparator" type="VSeparator" parent="MarginContainer/HBoxContainer2"]
 layout_mode = 2
 mouse_filter = 1
@@ -62,12 +65,6 @@ mouse_filter = 1
 [node name="pages" parent="MarginContainer/HBoxContainer2/PanelContainer" instance=ExtResource("2_f3gww")]
 clip_contents = true
 layout_mode = 2
-
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/HBoxContainer2"]
-visible = false
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 
 [node name="ScrollContainer2" type="ScrollContainer" parent="MarginContainer/HBoxContainer2"]
 visible = false
@@ -96,6 +93,7 @@ visible = false
 layout_mode = 2
 
 [connection signal="extracted_game" from="HBoxContainer/tool_bar/HBoxContainer/file" to="." method="_on_file_extracted_game"]
+[connection signal="translating" from="HBoxContainer/tool_bar/HBoxContainer/translation" to="." method="_on_translation_translating"]
 [connection signal="selected_entry" from="MarginContainer/HBoxContainer2/file_container" to="." method="_on_file_container_selected_entry"]
 
 [editable path="HBoxContainer/tool_bar"]

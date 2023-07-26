@@ -17,6 +17,7 @@ var current_info = {"file":"", "id":9999, "key":""}
 
 
 func _on_file_container_selected_entry(dict: Dictionary):
+	
 	if dict["file"] == "System":
 		sys_cont.visible   = true
 		page_cont.visible     = false
@@ -56,4 +57,8 @@ func _on_file_container_selected_entry(dict: Dictionary):
 
 
 func _on_file_extracted_game():
-	file_container.setup_tree(Data.files.keys())
+	file_container.setup_tree(Data.files.keys(), Data.files)
+
+
+func _on_translation_translating():
+	file_container.setup_tree(Data.translation.keys(), Data.translation)

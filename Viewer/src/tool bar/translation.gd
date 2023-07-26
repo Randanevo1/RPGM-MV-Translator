@@ -13,8 +13,6 @@ func button_selected(id):
 	match id:
 		0:
 			proj_select.show()
-#		1:
-#			extracted_select.show()
 
 
 func _on_proj_select_dir_selected(dir):
@@ -24,8 +22,11 @@ func _on_proj_select_dir_selected(dir):
 	
 	for file in conv_dir.get_files():
 		var file_name = file.split(".")[0]
-		var data = FileAccess.open(conv_dir_path + "/" + file, FileAccess.READ)
-		Data.translation[file_name] = data
+		var data = FileAccess.open(conv_dir_path + "/" + file, FileAccess.READ).get_as_text()
+		var contents = JSON.parse_string(data)
+		Data.translation[file_name] = contents
+		Data.file_info[file_name]   = len(contents)
+	Data.translating = true
 	emit_signal("translating")
 
 

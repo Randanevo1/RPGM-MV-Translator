@@ -1,115 +1,238 @@
-extends Tree
+extends ScrollContainer
 class_name Table
 
-@onready var table: Tree = $"."
-var root: TreeItem
-var attributes = false
-var set_columns = false
-
-var column_names = {}
-
-func _ready():
-	root = create_item()
-	setup_table(FileEnum.contents, FileEnum.file.Map, false)
+@onready var table: GridContainer = $GridContainer
+@onready var title_label          = preload("res://src/title/title.tscn")
+@onready var cell_edit            = preload("res://src/cell edit/cell_edit.tscn")
+@onready var choice_cell          = preload("res://src/choice cell/choice_cell.tscn")
 
 
-func setup_table(contents: Array, file: FileEnum.file, has_attributes=false):
+func setup_table(chunk, type: FileEnum.file):
 	
-	if has_attributes == true:
-		add_column("Key", 0)
-		table.columns += 1
-		attributes = true
+	var headers = []
 	
-	add_column("Original Text", table.columns - 1)
-	column_names["Original Text"] = table.columns - 1
+	if typeof(chunk) == TYPE_DICTIONARY:
+		headers.append("Key")
 	
-	create_headers(contents[0]["pages"][0]["list"][1][0], file)
+	headers.append("OG Text")
 	
-	var txt = self.create_item(root, 0)
-	txt.set_text(0, "text")
+	var cell_headers = get_headers(chunk, type)
 	
-	for shard in contents:
-		
-		if file == FileEnum.file.Other:
-			pass
-			#Todo Later
-		elif file == FileEnum.file.System:
-			pass
-			#Todo later
-		else:
-			#create_row(shard, file)
-			pass
-
+	headers.append_array(cell_headers)
+	
+	create_headers(headers)
+	
+	create_rows(chunk, type)
 
 #----#
 
-#Done
-func create_headers(chunk: Dictionary, file: FileEnum.file):
+func get_headers(chunk, type: FileEnum.file):
 	
-	var column_tracker = 1
+	var headers = []
 	
-	if file == FileEnum.file.Map or file == FileEnum.file.CommonEvents:
+	if type == FileEnum.file.Other:
 		
-		table.columns = len(chunk["cells"]) + 1
-		
-		for cell in chunk["cells"]:
-			add_column(cell["cell name"], column_tracker)
-			column_names[cell["cell name"]] = column_tracker
-			column_tracker += 1
-	
-	elif file == FileEnum.file.Other:
-		
-		
-		column_tracker = 2
-		
-		for key in chunk:
+		for key in chunk.keys():
 			
-			if key == "id" or key == "":
+			if key == "id":
 				continue
 			
-			if set_columns == false:
-				table.columns = len(chunk[key]["cells"]) + 2
-				set_columns = true
-			
 			for cell in chunk[key]["cells"]:
-				add_column(cell["cell_name"], column_tracker)
-				column_names[cell["cell_name"]] = column_tracker
-				column_tracker += 1
+				
+				headers.append(cell["cell_name"])
 			
-			break
-
-
-func create_row(tl_shard: Dictionary, file: FileEnum.file, attribute=""):
+			return headers
 	
-	var og_txt: TreeItem = table.create_item(root, column_names["Original Text"])
+	elif type == FileEnum.file.System:
+		
+		if typeof(chunk) == TYPE_ARRAY:
+			
+			for cell in chunk[0]["cells"]:
+				
+				headers.append(cell["cell_name"])
+			return headers
+		
+		else:
+			
+			for key in chunk.keys():
+				
+				for cell in chunk[key]["cells"]:
+					
+					headers.append(cell["cell_name"])
+				
+				return headers
 	
-	if typeof(tl_shard["original text"]) == TYPE_ARRAY:
-		og_txt.set_text(column_names["Original Text"], tl_shard["original text"])
 	else:
-		og_txt.set_text(column_names["Original Text"], tl_shard["original text"])
+		
+		for shard in chunk:
+			
+			if len(shard) > 0:
+				
+				for cell in shard[0]["cells"]:
+					
+					headers.append(cell["cell name"])
+				return headers
+
+
+func get_data(shard, type: FileEnum.file):
 	
+	var data = []
 	
+	if type == FileEnum.file.Other:
+		
+		for key in shard.keys():
+			
+			if key == "id":
+				continue
+			
+			var row_data = {}
+			row_data["original text"] = shard[key]["original text"]
+			row_data["Key"]           = key
+			row_data["cells"]         = shard[key]["cells"]
+			
+			data.append(row_data)
+	
+	else:
+		
+		if typeof(shard) == TYPE_ARRAY:
+			
+			for entry in shard:
+				
+				var row_data = {}
+				row_data["original text"] = entry["original text"]
+				row_data["cells"]         = entry["cells"]
+				
+				data.append(row_data)
+		
+		else:
+			
+			for key in shard.keys():
+				
+				var row_data = {}
+				row_data["original text"] = shard[key]["original text"]
+				row_data["Key"]           = key
+				row_data["cells"]         = shard[key]["cells"]
+				
+				data.append(row_data)
+	
+	return data
 
 
 #----#
 
 
-func add_column(header_name: String, column: int):
+func create_headers(headers: Array) -> void:
 	
-	if header_name == "":
-		header_name = "test" + str(table.columns)
+	table.columns = len(headers)
 	
-	table.set_column_title(column, header_name)
+	for header in headers:
+		
+		
+		var title = title_label.instantiate()
+		table.add_child(title)
+		title.text = header
 
 
-#----#
-
-
-func combine_lines(lines: Array):
+func create_rows(row_data, type: FileEnum.file) -> void:
 	
-	var combined = ""
+	
+	if type == FileEnum.file.Other or type == FileEnum.file.System:
+		
+		if typeof(row_data) == TYPE_DICTIONARY:
+			
+			for key in row_data.keys():
+				
+				if key == "id":
+					continue
+				
+				var atr:    CellEdit = cell_edit.instantiate()
+				var og_txt: CellEdit = cell_edit.instantiate()
+				
+				table.add_child(atr)
+				table.add_child(og_txt)
+				
+				atr.text    = key
+				og_txt.text = row_data[key]["original text"]
+				
+				atr.editable    = false
+				og_txt.editable = false
+				
+				create_cells(row_data[key]["cells"], type)
+		
+		else:
+			
+			for shard in row_data:
+				
+				var og_txt: CellEdit = cell_edit.instantiate()
+				og_txt.editable = false
+				table.add_child(og_txt)
+				og_txt.text = shard["original text"]
+				
+				create_cells(shard["cells"], type)
+		
+	else:
+		
+		for shard in row_data:
+			
+			if len(shard) != 0:
+				
+				if shard[0]["info"]["code"] == 102:
+					
+					var og_txt: ChoiceCell = choice_cell.instantiate()
+					table.add_child(og_txt)
+					og_txt.create_choices(shard[0])
+					
+					var cell_index := 0
+					
+					for cell in shard[0]["cells"]:
+						
+						var new_cell: ChoiceCell = choice_cell.instantiate()
+						table.add_child(new_cell)
+						new_cell.create_choices(shard[0], cell_index)
+						cell_index += 1
+				
+				else:
+					
+					var og_txt: CellEdit = cell_edit.instantiate()
+					og_txt.editable = false
+					table.add_child(og_txt)
+					insert_lines(shard[0]["original text"], og_txt)
+					
+					create_cells(shard[0]["cells"], type)
+
+
+func create_cells(cells: Array, type: FileEnum.file) -> void:
+	
+	for cell in cells:
+				
+				var new_cell: CellEdit = cell_edit.instantiate()
+				
+				table.add_child(new_cell)
+				
+				if type == FileEnum.file.Other or type == FileEnum.file.System:
+					
+					if cell["text"] == null:
+						new_cell.text = ""
+					else:
+						new_cell.text      = cell["text"].c_escape()
+					new_cell.cell_data = cell
+					new_cell.type      = type
+				
+				else:
+					
+					if cell["text"][0] == null:
+						new_cell.text = ""
+					else:
+						insert_lines(cell["text"], new_cell)
+					new_cell.cell_data = cell
+					new_cell.type      = type
+
+
+func insert_lines(lines: Array, cell: TextEdit) -> void:
+	
+	var line_track = 0
 	
 	for line in lines:
-		combined += line
-	
-	return combined
+		
+		cell.insert_line_at(line_track, line.c_escape())
+		line_track += 1

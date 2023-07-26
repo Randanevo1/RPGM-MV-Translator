@@ -5,7 +5,7 @@ class_name File_list
 signal selected_entry
 
 
-func setup_tree(files: Array):
+func setup_tree(files: Array, file_dict: Dictionary):
 	
 	var root = tree.create_item()
 	tree.hide_root = true
@@ -19,10 +19,10 @@ func setup_tree(files: Array):
 		
 		if file in "System":
 			
-			for key in Data.files["System"].keys():
+			for key in file_dict["System"].keys():
 				
 				if key == "terms":
-					for item in Data.files["System"][key].keys():
+					for item in file_dict["System"][key].keys():
 						var entry: TreeItem = tree.create_item(file_item)
 						entry.set_metadata(0, {"file":file, "key":item})
 						entry.set_text(0, item)

@@ -1,14 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://bdgf86mxck4gu"]
+[gd_scene load_steps=2 format=3 uid="uid://bfmvdxfv4onsh"]
 
-[ext_resource type="Script" path="res://src/table/table.gd" id="1_6j10m"]
+[ext_resource type="Script" path="res://src/table/table.gd" id="1_qgwea"]
 
-[node name="table" type="Tree"]
+[node name="table" type="ScrollContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-column_titles_visible = true
-hide_folding = true
-hide_root = true
-script = ExtResource("1_6j10m")
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_qgwea")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+columns = 2

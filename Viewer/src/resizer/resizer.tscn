@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7t46m242ua83"]
+
+[ext_resource type="Texture2D" uid="uid://cpflfu1c5ed4f" path="res://Resize-Icon-SVG-0nwds.svg" id="1_it3ix"]
+[ext_resource type="Script" path="res://src/cell edit/resizer.gd" id="2_a7t5e"]
+
+[node name="resizer" type="TextureButton"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -12.0
+offset_top = -12.0
+offset_right = -2.0
+offset_bottom = -3.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_default_cursor_shape = 2
+action_mode = 0
+keep_pressed_outside = true
+texture_normal = ExtResource("1_it3ix")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("2_a7t5e")
+
+[node name="Resizer" type="Popup" parent="."]
+initial_position = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Resizer"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Resizer/VBoxContainer"]
+layout_mode = 2
+text = "Size: [num]"
+
+[node name="HSlider" type="HSlider" parent="Resizer/VBoxContainer"]
+layout_mode = 2
+min_value = 250.0
+max_value = 999.0
+value = 250.0
+
+[node name="done" type="Button" parent="Resizer/VBoxContainer"]
+layout_mode = 2
+text = "Done"
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]
+[connection signal="value_changed" from="Resizer/VBoxContainer/HSlider" to="." method="_on_h_slider_value_changed"]
+[connection signal="pressed" from="Resizer/VBoxContainer/done" to="." method="_on_done_pressed"]

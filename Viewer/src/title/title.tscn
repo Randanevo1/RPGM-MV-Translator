@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://c4mokm2wc1q3v"]
+
+[ext_resource type="PackedScene" uid="uid://b7t46m242ua83" path="res://src/resizer/resizer.tscn" id="1_5bc6a"]
+[ext_resource type="Script" path="res://src/title/title.gd" id="1_akl8t"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5tu3m"]
+bg_color = Color(0.219608, 0.219608, 0.219608, 1)
+
+[sub_resource type="Theme" id="Theme_r32x4"]
+Label/styles/normal = SubResource("StyleBoxFlat_5tu3m")
+
+[node name="title" type="Label"]
+custom_minimum_size = Vector2(300, 0)
+offset_right = 40.0
+offset_bottom = 23.0
+theme = SubResource("Theme_r32x4")
+script = ExtResource("1_akl8t")
+
+[node name="resizer" parent="." instance=ExtResource("1_5bc6a")]
+layout_mode = 1
+offset_top = -11.0
+offset_right = 0.0
+offset_bottom = 0.0
+
+[connection signal="request_resize" from="resizer" to="." method="_on_resizer_request_resize"]

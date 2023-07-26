@@ -45,7 +45,7 @@ func others_handler(entry: Dictionary) -> Dictionary:
 	var chunk = {"id":entry["id"]}
 	for key in entry.keys():
 		if key != "id":
-			chunk[key] = {"original text":entry[key], "cells":[{"text":null, "cell_name":""}]}
+			chunk[key] = {"original text":entry[key], "cells":[{"text":null, "cell_name":"TL"}]}
 	return chunk
 
 
@@ -97,7 +97,7 @@ func system_handler(sys_data: Dictionary) -> Dictionary:
 	}
 	
 	for key in sys_data["terms"]["messages"]:
-		var converted_key = {"original text":sys_data["terms"]["messages"][key], "cells":[{"text":null, "cell_name":""}]}
+		var converted_key = {"original text":sys_data["terms"]["messages"][key], "cells":[{"text":null, "cell_name":"TL"}]}
 		converted["messages"][key] = converted_key
 	
 	return converted
@@ -108,7 +108,7 @@ func arr_looper(arr: Array):
 	var converted_arr = []
 	
 	for value in arr:
-		converted_arr.append({"original text":value, "cells":[{"text":null, "cell_name":""}]})
+		converted_arr.append({"original text":value, "cells":[{"text":null, "cell_name":"TL"}]})
 	return converted_arr
 
 ##--------------------------------------------------------##

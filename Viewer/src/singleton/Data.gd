@@ -8,6 +8,7 @@ var file_info:         Dictionary
 var current_file_data: Dictionary
 var files = {}
 var translation = {}
+var translating = false
 
 
 func save_translation():

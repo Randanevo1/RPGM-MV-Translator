@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://dx7wvevknfnsf"]
+
+[ext_resource type="Script" path="res://src/icon button/icon_button.gd" id="1_bsr5h"]
+
+[node name="icon_button" type="HBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_bsr5h")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(34, 34)
+layout_mode = 2
+expand_mode = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 2
+
+[connection signal="button_up" from="Button" to="." method="_on_button_button_up"]

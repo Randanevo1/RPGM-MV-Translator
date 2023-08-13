@@ -13,6 +13,7 @@ config_version=5
 config/name="Rpgm Mv Translator"
 run/main_scene="res://src/main/main.tscn"
 config/features=PackedStringArray("4.0", "GL Compatibility")
+run/low_processor_mode=true
 config/icon="res://icon.svg"
 
 [autoload]
@@ -23,6 +24,12 @@ Applier="*res://tools/applier/applier.gd"
 Data_converter="*res://tools/Converter/converter.gd"
 DeConverter="*res://tools/Converter/de_converter.gd"
 Extractor="*res://tools/extractor/extractor.gd"
+Options="*res://src/singleton/Options.gd"
+Find="*res://src/singleton/Search.gd"
+
+[debug]
+
+gdscript/warnings/integer_division=0
 
 [input]
 

@@ -17,10 +17,16 @@ var valid_files = [
 @onready var file_select:      NativeFileDialog = $"file_select"
 @onready var extracted_select: NativeFileDialog = $extracted_select
 @onready var convert_select = $convert_select
+@onready var options = $options
+@onready var progress_tracker = $progress_tracker
+@onready var extractor_tracker = $"extractor tracker"
+
 
 signal extracted_game
+signal error
+signal request_project_select
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	self.get_popup().connect("id_pressed", button_selected)
 
@@ -31,13 +37,20 @@ func button_selected(id):
 		0:
 			file_select.show()
 		1:
-			extracted_select.show()
-		2:
-			convert_select.show()
+			Data.save_translation()
+		3:
+			options.visible = true
+		4:
+			emit_signal("request_project_select")
 
 
 func _on_file_select_dir_selected(dir: String):
 	var data_path = dir + "/" + "www" + "/" + "data"
+	
+	if DirAccess.dir_exists_absolute(data_path) == false:
+		emit_signal("error", "Invalid folder, ensure the folder 'www' exists")
+		return
+	
 	var d: DirAccess = DirAccess.open(data_path)
 	var files = d.get_files()
 	
@@ -57,6 +70,13 @@ func _on_file_select_dir_selected(dir: String):
 
 
 func extract_files(paths: Dictionary, game_name: String):
+	
+	if Data.projects.has(game_name):
+		emit_signal("error", "Project has already been extracted")
+		return
+	
+	extractor_tracker.visible = true
+	
 	var extract_dir = "./" + game_name + "/" + "extracted data" + "/"
 	var org_dir     = "./" + game_name + "/" + "original data"  + "/"
 	var new_dir = DirAccess.open("./")
@@ -64,8 +84,8 @@ func extract_files(paths: Dictionary, game_name: String):
 	new_dir.make_dir(game_name)
 	new_dir.make_dir("./" + game_name + "/" + "extracted data")
 	new_dir.make_dir("./" + game_name + "/" + "original data")
-#	Data.current_dir = "./" + game_name + "/" + "extracted data"
-#	Data.game_name = game_name
+	Data.game_name = game_name
+	Extractor.send_signal("started_extraction", len(paths.keys()) - 3)
 	
 	for file_name in paths:
 		var file = FileAccess.open(paths[file_name], FileAccess.READ)
@@ -94,9 +114,12 @@ func extract_files(paths: Dictionary, game_name: String):
 			extract_file.store_line(JSON.stringify(extracted_data))
 			org_files.store_line(JSON.stringify(contents))
 			
-#			Data.file_info[file_name] = len(extracted_data)
-#			Data.files[file_name] = extracted_data
+			Data.file_info[file_name] = len(extracted_data)
+			Data.files[file_name] = extracted_data
 	Data_converter.convert_data()
+	Extractor.send_signal("extraction_end")
+	Data.open_project("./" + game_name)
+	Data.add_new_project(game_name, "./" + game_name)
 
 
 func _on_extracted_select_dir_selected(dir):

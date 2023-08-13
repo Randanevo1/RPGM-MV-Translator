@@ -3,21 +3,40 @@ extends Node
 var valid_codes = [
 	401,
 	405,
-	102
+	102,
+	356,
+	108
 ]
+
+signal started_extraction
+signal extracted_file
+signal extraction_end
+
+
+func send_signal(signal_name: String, f_len := 0):
+	
+	if f_len != 0:
+		emit_signal(signal_name, f_len)
+	else:
+		emit_signal(signal_name)
+
 
 ##--------------------------------------------------------##
 
 func extract(data, file_name: String):
 	
+	var extracted
+	
 	if file_name in "CommonEvents":
-		return id_looper(data, ce_entry_handler)
+		extracted = id_looper(data, ce_entry_handler)
 	elif "Map" in file_name:
-		return id_looper(data, map_entry_handler)
+		extracted = id_looper(data, map_entry_handler)
 	elif file_name in "System":
-		return system_handler(data)
+		extracted = system_handler(data)
 	else:
-		return id_looper(data, others_entry_handler)
+		extracted = id_looper(data, others_entry_handler)
+	emit_signal("extracted_file", file_name)
+	return extracted
 
 ##--------------------------------------------------------##
 
@@ -94,7 +113,7 @@ func break_up_list(list: Array) -> Array:
 			tmp_holder.append(line)
 			continue
 		
-		if valid_codes.has(int(line["code"])):
+		if is_entry_valid(line) == true: #valid_codes.has(int(line["code"])):
 			if is_tmp_holder_valid(tmp_holder) == true:
 				tmp_holder.append(line)
 			else:
@@ -114,6 +133,26 @@ func break_up_list(list: Array) -> Array:
 		blocks.append(tmp_holder)
 	
 	return blocks
+
+
+func is_entry_valid(entry) -> bool:
+	
+	
+	if valid_codes.has(int(entry["code"])):
+		
+		if int(entry["code"]) == 108:
+			if "text_indicator" in entry["parameters"][0]:
+				return true
+			return false
+		
+		elif int(entry["code"]) == 356:
+			if "D_TEXT" in entry["parameters"][0] and int(entry["indent"]) == 0:
+				return true
+			return false
+		
+		return true
+	
+	return false
 
 
 func is_tmp_holder_valid(holder: Array) -> bool:

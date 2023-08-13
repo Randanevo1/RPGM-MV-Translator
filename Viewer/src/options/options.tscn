@@ -1,0 +1,43 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3l2xt4xxlsui"]
+
+[ext_resource type="Script" path="res://src/options/save_time.gd" id="1_op3an"]
+
+[node name="options" type="Popup"]
+transparent_bg = true
+position = Vector2i(486, 250)
+size = Vector2i(206, 50)
+visible = true
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -103.0
+offset_top = -20.0
+offset_right = 103.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Autosave timer"
+
+[node name="save_time" type="SpinBox" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+max_value = 999999.0
+rounded = true
+update_on_text_changed = true
+suffix = "sec"
+select_all_on_focus = true
+script = ExtResource("1_op3an")
+
+[connection signal="value_changed" from="PanelContainer/VBoxContainer/HBoxContainer/save_time" to="PanelContainer/VBoxContainer/HBoxContainer/save_time" method="_on_value_changed"]

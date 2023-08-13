@@ -3,6 +3,7 @@ class_name CellEdit
 
 var cell_data: Dictionary
 var type: FileType.type
+@onready var clipboard: SetClipboard = $clipboard
 
 
 func _on_text_changed():
@@ -14,6 +15,7 @@ func get_lines():
 	if type == FileType.type.Other or type == FileType.type.System:
 		
 		return self.text
+	
 	else:
 		
 		var lines = []
@@ -27,3 +29,7 @@ func get_lines():
 
 func _on_resizer_request_resize(x_rect):
 	self.custom_minimum_size.x = x_rect
+
+
+func _on_clipboard_request_set_slipboard():
+	clipboard.set_clipboard(self.text)

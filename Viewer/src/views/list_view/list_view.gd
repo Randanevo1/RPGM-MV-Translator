@@ -6,7 +6,7 @@ extends TabContainer
 # If type == CommonEvents expects list array
 # If type == Map          expects page array
 
-func setup_list_view(lists: Array, type: FileType.type):
+func setup_list_view(lists: Array, type: FileType.type, event_id: int):
 	
 	if type == FileType.type.CommonEvents:
 		
@@ -17,6 +17,8 @@ func setup_list_view(lists: Array, type: FileType.type):
 		
 		cont.get_node("cont").add_child(new_view)
 		
+		new_view.event.text = "Event: " + str(event_id)
+		new_view.event.visible = true
 		new_view.setup_table(lists, type, "")
 	
 	else:
@@ -33,17 +35,24 @@ func setup_list_view(lists: Array, type: FileType.type):
 					continue
 			
 			var new_cont = margin.instantiate()
-			new_cont.name = str(page_count)
+			new_cont.name = "page " + str(page_count)
 			self.add_child(new_cont)
 			page_count += 1
 			
 			var new_view = view.instantiate()
 			
+			
 			new_cont.get_node("cont").add_child(new_view)
+			new_view.event.text = "Event: " + str(event_id)
+			new_view.event.visible = true
 			new_view.setup_table(page["list"], type, "")
+	
+	if self.get_child_count() == 1:
+		self.tabs_visible = false
 
 
 func clear():
 	
 	for child in self.get_children():
 		child.free()
+	return

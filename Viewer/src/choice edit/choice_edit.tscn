@@ -1,10 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://3bugmlt0dil4"]
+[gd_scene load_steps=3 format=3 uid="uid://3bugmlt0dil4"]
 
 [ext_resource type="Script" path="res://src/choice edit/choice_edit.gd" id="1_xefje"]
+[ext_resource type="PackedScene" uid="uid://uqxc5eggtrxu" path="res://src/clipboard/clipboard.tscn" id="2_6uaik"]
 
 [node name="choice_edit" type="LineEdit"]
 offset_right = 67.0625
 offset_bottom = 31.0
 script = ExtResource("1_xefje")
 
+[node name="clipboard" parent="." instance=ExtResource("2_6uaik")]
+layout_mode = 1
+offset_left = -11.0625
+offset_top = -12.0
+offset_right = -1.0625
+offset_bottom = -3.0
+
 [connection signal="text_changed" from="." to="." method="_on_text_changed"]
+[connection signal="request_set_slipboard" from="clipboard" to="." method="_on_clipboard_request_set_slipboard"]

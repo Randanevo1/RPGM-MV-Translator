@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bygivrnafkbgk"]
+
+[ext_resource type="Texture2D" uid="uid://f7dysm2pt8q4" path="res://search-svgrepo-com.svg" id="1_1bpb1"]
+[ext_resource type="Script" path="res://src/search button/search_button.gd" id="2_h35vd"]
+
+[node name="search_button" type="TextureButton"]
+custom_minimum_size = Vector2(24, 24)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("1_1bpb1")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("2_h35vd")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

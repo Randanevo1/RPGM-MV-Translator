@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://by1r0tniobhix"]
+
+[ext_resource type="Script" path="res://src/shortcut/short_cut.gd" id="1_iu08e"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_7egqn"]
+device = -1
+ctrl_pressed = true
+keycode = 83
+
+[sub_resource type="Shortcut" id="Shortcut_v8egj"]
+events = [SubResource("InputEventKey_7egqn")]
+
+[node name="save" type="Button"]
+shortcut = SubResource("Shortcut_v8egj")
+script = ExtResource("1_iu08e")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

@@ -2,8 +2,19 @@ extends PanelContainer
 class_name FileSelect
 
 @onready var tree = $MarginContainer/ScrollContainer/Tree
+var file_items := {}
 signal selected_entry
 
+
+func _ready():
+	Data.connect("request_jump", on_jump_request)
+
+
+func on_jump_request(coords):
+	
+	var file = coords[0]
+	tree.scroll_to_item(file_items[file])
+	tree.set_selected(file_items[file], 0)
 
 
 func setup_tree(files: Array, file_dict: Dictionary):
@@ -17,6 +28,7 @@ func setup_tree(files: Array, file_dict: Dictionary):
 		file_item.collapsed = true
 		file_item.set_text(0, file)
 		file_item.set_metadata(0, file)
+		file_items[file] = file_item
 		
 		if file in "System":
 			
@@ -44,7 +56,7 @@ func setup_tree(files: Array, file_dict: Dictionary):
 					entry.set_metadata(0, {"file":file, "id":id, "type":FileType.type.CommonEvents})
 				else:
 					entry.set_metadata(0, {"file":file, "id":id, "type":FileType.type.Map})
-				entry.set_text(0, "entry %03d" % id)
+				entry.set_text(0, "Event %03d" % id)
 		
 		else:
 			file_item.set_metadata(0, {"file":file, "id":-1, "type":FileType.type.Other})

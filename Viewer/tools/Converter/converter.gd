@@ -3,11 +3,19 @@ class_name Converter
 
 const cell_template = {"text":[null], "cell name":"TL"}
 
+signal conversion_start
+signal converted_file
+signal conversion_end
+
 
 func convert_data() -> void:
 	
-	var converted_dir = DirAccess.open("./" + Data.game_name)
-	converted_dir.make_dir("converted data")
+	emit_signal("conversion_start")
+	
+	if DirAccess.dir_exists_absolute("./" + Data.game_name + "/" + "converted data") != true:
+		DirAccess.make_dir_absolute("./" + Data.game_name + "/" + "converted data")
+	
+	#var converted_dir = DirAccess.open("./" + Data.game_name + "/" + "converted data")
 	var dir_path = "./" + Data.game_name + "/" + "converted data" + "/"
 	
 	
@@ -22,6 +30,9 @@ func convert_data() -> void:
 			new_file.store_line(JSON.stringify(system_handler(Data.files[file])))
 		else:
 			new_file.store_line(JSON.stringify(id_looper(Data.files[file], others_handler)))
+		emit_signal("converted_file", file)
+	emit_signal("conversion_end")
+	return
 
 ##--------------------------------------------------------##
 
@@ -121,7 +132,7 @@ func convert_block(block: Array):
 	
 	for line in block:
 		
-		if Extractor.valid_codes.has(int(line["code"])):
+		if Extractor.is_entry_valid(line):# valid_codes.has(int(line["code"])):
 			
 			if int(chunk["info"]["code"]) != int(line["code"]) and chunk["info"]["code"] != -1:
 				

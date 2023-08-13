@@ -10,7 +10,7 @@ bg_color = Color(0.219608, 0.219608, 0.219608, 1)
 Label/styles/normal = SubResource("StyleBoxFlat_5tu3m")
 
 [node name="title" type="Label"]
-custom_minimum_size = Vector2(300, 0)
+custom_minimum_size = Vector2(400, 0)
 offset_right = 40.0
 offset_bottom = 23.0
 theme = SubResource("Theme_r32x4")

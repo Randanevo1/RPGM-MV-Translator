@@ -133,8 +133,8 @@ func create_headers(headers: Array) -> void:
 		
 		
 		var title = title_label.instantiate()
-		table.add_child(title)
 		title.text = header
+		table.add_child(title)
 
 
 func create_rows(row_data, type: FileType.type) -> void:
@@ -236,7 +236,7 @@ func create_cells(cells: Array, type: FileType.type) -> void:
 					if cell["text"] == null:
 						new_cell.text = ""
 					else:
-						new_cell.text      = cell["text"].c_escape()
+						new_cell.text      = cell["text"]
 					new_cell.cell_data = cell
 					new_cell.type      = type
 				
@@ -245,16 +245,22 @@ func create_cells(cells: Array, type: FileType.type) -> void:
 					if cell["text"][0] == null:
 						new_cell.text = ""
 					else:
-						insert_lines(cell["text"], new_cell)
+						insert_lines(cell["text"], new_cell, true)
 					new_cell.cell_data = cell
 					new_cell.type      = type
 
 
-func insert_lines(lines: Array, cell: TextEdit) -> void:
+func insert_lines(lines: Array, cell: TextEdit, for_edit := false) -> void:
 	
 	var line_track = 0
 	
 	for line in lines:
 		
-		cell.insert_line_at(line_track, line.c_escape())
+		if line == "":
+			continue
+		
+		if for_edit == false:
+			cell.insert_line_at(line_track, line)
+		else:
+			cell.insert_line_at(line_track, line)
 		line_track += 1

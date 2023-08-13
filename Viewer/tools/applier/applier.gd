@@ -1,7 +1,14 @@
 extends Node
 
+signal apply_started
+signal applied_file
+
+signal apply_end
+
 
 func apply(files_to_apply: Dictionary):
+	
+	emit_signal("apply_started")
 	
 	var org_path = "./" + Data.game_name + "/original data/"
 	var original_files_dir = DirAccess.open(org_path)
@@ -33,10 +40,11 @@ func apply(files_to_apply: Dictionary):
 			data = system_handler(org_files[file], files_to_apply[file])
 		else:
 			data = id_looper(org_files[file], files_to_apply[file], others_entry_handler)
-		
+		emit_signal("applied_file", file)
 		
 		var new_file = FileAccess.open(applied_dir + save_as, FileAccess.WRITE)
 		new_file.store_line(JSON.stringify(data))
+	emit_signal("apply_end")
 
 ##--------------------------------------------------------##
 
@@ -94,9 +102,9 @@ func system_handler(org_entry: Dictionary, tl_entry: Dictionary) -> Dictionary:
 	org_entry["armorTypes"] = tl_entry["armorTypes"]
 	org_entry["elements"] = tl_entry["elements"]
 	org_entry["terms"]["basic"] = tl_entry["basic"]
-	org_entry["terms"]["commands"] = tl_entry["gameTitle"]
-	org_entry["terms"]["params"] = tl_entry["gameTitle"]
-	org_entry["terms"]["messages"] = tl_entry["gameTitle"]
+	org_entry["terms"]["commands"] = tl_entry["commands"]
+	org_entry["terms"]["params"] = tl_entry["params"]
+	org_entry["terms"]["messages"] = tl_entry["messages"]
 	
 	return org_entry
 

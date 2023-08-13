@@ -1,0 +1,57 @@
+[gd_scene load_steps=2 format=3 uid="uid://dd8jlc088tnvh"]
+
+[ext_resource type="Script" path="res://src/missing project/missing_project.gd" id="1_g1c42"]
+
+[node name="missing_project" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_g1c42")
+
+[node name="notif" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "Missing Project"
+horizontal_alignment = 1
+
+[node name="path" type="Label" parent="."]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "This action cannot be undone, are you sure?"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="yes" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Yes"
+
+[node name="no" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "No"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="select" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Select project"
+
+[node name="remove" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Remove project"
+
+[connection signal="button_up" from="PanelContainer/VBoxContainer/HBoxContainer/yes" to="." method="_on_yes_button_up"]
+[connection signal="button_up" from="PanelContainer/VBoxContainer/HBoxContainer/no" to="." method="_on_no_button_up"]
+[connection signal="button_up" from="HBoxContainer/select" to="." method="_on_select_button_up"]
+[connection signal="button_up" from="HBoxContainer/remove" to="." method="_on_remove_button_up"]

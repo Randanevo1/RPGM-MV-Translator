@@ -1,19 +1,16 @@
 extends Node
 
+signal started_deconversion
+signal deconverted_file
+
 
 func de_convert():
 	
-	var converted_folder = "./" + Data.game_name +"/converted data"
-	var files: Dictionary = Data.files
-	var to_load = DirAccess.get_files_at(converted_folder)
-	var converted_files = {}
+	var files = get_extract_files()
+	var converted_files = Data.translation
 	var de_converted_files = {}
 	
-	for file in to_load:
-		var path = converted_folder + "/" + file
-		var contents = JSON.parse_string(FileAccess.open(path, FileAccess.READ).get_as_text())
-		var file_name = file.split(".")[0]
-		converted_files[file_name] = contents
+	emit_signal("started_deconversion", len(converted_files.keys()) + len(files))
 	
 	for file in files:
 		var extracted_data = files[file]
@@ -26,9 +23,24 @@ func de_convert():
 			de_converted_files[file] = system_handler(converted_data)
 		else:
 			de_converted_files[file] = id_looper(extracted_data, converted_data, others_entry_handler)
+		emit_signal("deconverted_file", file)
 	
 	
 	Applier.apply(de_converted_files)
+
+
+func get_extract_files():
+	
+	var extract_folder = "./" + Data.game_name + "/extracted data"
+	var extract_contents = {}
+	var to_load = DirAccess.get_files_at(extract_folder)
+	
+	for file in to_load:
+		var path = extract_folder + "/" + file
+		var contents = JSON.parse_string(FileAccess.open(path, FileAccess.READ).get_as_text())
+		var file_name = file.split(".")[0]
+		extract_contents[file_name] = contents
+	return extract_contents
 
 
 ##--------------------------------------------------------##
@@ -112,6 +124,7 @@ func system_handler(convert_data: Dictionary):
 			if cell["text"] != null:
 				converted["gameTitle"] = cell["text"]
 				used_cell = true
+				break
 		if used_cell == false:
 			converted["gameTitle"] = convert_data["gameTitle"]["original text"]
 	
@@ -124,7 +137,7 @@ func system_handler(convert_data: Dictionary):
 			for cell in convert_data["messages"][key]["cells"]:
 				if cell["text"] != null:
 					converted["messages"][key] = cell["text"]
-					used_cell = false
+					used_cell = true
 					break
 			if used_cell == false:
 				converted["messages"][key] = convert_data["messages"][key]["original text"]

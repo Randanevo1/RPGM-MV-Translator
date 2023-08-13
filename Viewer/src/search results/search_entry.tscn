@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhchuullxbdss"]
+
+[ext_resource type="Script" path="res://src/search results/search_entry.gd" id="1_iwld5"]
+
+[node name="search_entry" type="PanelContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+size_flags_horizontal = 3
+script = ExtResource("1_iwld5")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="coords" type="Label" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "coordinates"
+
+[node name="HSeparator" type="HSeparator" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="text" type="Label" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "text here"
+
+[node name="jump_to" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "Go to file"
+
+[connection signal="button_up" from="HBoxContainer/jump_to" to="." method="_on_jump_to_button_up"]

@@ -15,6 +15,7 @@ offset_right = -2.0
 offset_bottom = -3.0
 grow_horizontal = 0
 grow_vertical = 0
+tooltip_text = "Resize column"
 mouse_default_cursor_shape = 2
 action_mode = 0
 keep_pressed_outside = true
@@ -24,17 +25,17 @@ stretch_mode = 0
 script = ExtResource("2_a7t5e")
 
 [node name="Resizer" type="Popup" parent="."]
-initial_position = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Resizer"]
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Label" type="Label" parent="Resizer/VBoxContainer"]
+[node name="Label" type="SpinBox" parent="Resizer/VBoxContainer"]
 layout_mode = 2
-text = "Size: [num]"
+max_value = 99999.0
 
 [node name="HSlider" type="HSlider" parent="Resizer/VBoxContainer"]
+visible = false
 layout_mode = 2
 min_value = 250.0
 max_value = 999.0
@@ -45,5 +46,4 @@ layout_mode = 2
 text = "Done"
 
 [connection signal="pressed" from="." to="." method="_on_pressed"]
-[connection signal="value_changed" from="Resizer/VBoxContainer/HSlider" to="." method="_on_h_slider_value_changed"]
 [connection signal="pressed" from="Resizer/VBoxContainer/done" to="." method="_on_done_pressed"]

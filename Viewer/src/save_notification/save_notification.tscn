@@ -1,0 +1,86 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3e72nqckcm66"]
+
+[ext_resource type="Script" path="res://src/save_notification/save_notification.gd" id="1_2cdbh"]
+[ext_resource type="Texture2D" uid="uid://v5tf8l8jna3n" path="res://save-item-1411-svgrepo-com.svg" id="2_2hpkv"]
+
+[sub_resource type="Animation" id="Animation_ducm3"]
+resource_name = "fade in"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lvp86"]
+_data = {
+"fade in": SubResource("Animation_ducm3")
+}
+
+[node name="PanelContainer" type="PanelContainer"]
+modulate = Color(1, 1, 1, 0)
+clip_contents = true
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -84.0
+offset_top = 2.0
+offset_bottom = 36.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+script = ExtResource("1_2cdbh")
+metadata/_edit_group_ = true
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="cooldown" type="Timer" parent="."]
+wait_time = 6.0
+one_shot = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+clip_contents = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Saved"
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(34, 34)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_2hpkv")
+expand_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_lvp86")
+}
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

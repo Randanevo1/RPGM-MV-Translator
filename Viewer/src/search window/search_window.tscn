@@ -1,0 +1,120 @@
+[gd_scene load_steps=4 format=3 uid="uid://dt8j301x8sdfv"]
+
+[ext_resource type="Script" path="res://src/search window/search_window.gd" id="1_aglny"]
+[ext_resource type="Script" path="res://src/search window/search_results.gd" id="2_c3ik0"]
+[ext_resource type="PackedScene" uid="uid://bixowr3mphl1f" path="res://src/search results/search_results.tscn" id="3_nic15"]
+
+[node name="search_window" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_aglny")
+
+[node name="Panel" type="Panel" parent="."]
+self_modulate = Color(1, 1, 1, 0.392157)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(600, 500)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -250.0
+offset_right = 300.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="text_entry" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Find text"
+alignment = 1
+
+[node name="clear_entry" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/text_entry"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.967
+anchor_top = 0.097
+anchor_right = 0.989
+anchor_bottom = 0.935
+offset_left = -7.88602
+offset_top = -2.007
+offset_right = 0.0379944
+offset_bottom = 3.015
+grow_horizontal = 0
+grow_vertical = 2
+mouse_default_cursor_shape = 2
+text = "X"
+flat = true
+
+[node name="whole_word" type="CheckBox" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Whole Word"
+
+[node name="case_sensitive" type="CheckBox" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Case Sensitive"
+
+[node name="search_results" type="Tree" parent="PanelContainer/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+hide_root = true
+script = ExtResource("2_c3ik0")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="search_results2" parent="PanelContainer/MarginContainer/VBoxContainer/ScrollContainer/PanelContainer" instance=ExtResource("3_nic15")]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="close" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "Close"
+
+[node name="clear" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Clear results"
+
+[connection signal="text_submitted" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/text_entry" to="." method="_on_text_entry_text_submitted"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/text_entry/clear_entry" to="." method="_on_clear_entry_pressed"]
+[connection signal="toggled" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/whole_word" to="." method="_on_whole_word_toggled"]
+[connection signal="toggled" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/case_sensitive" to="." method="_on_case_sensitive_toggled"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/close" to="." method="_on_close_pressed"]
+[connection signal="button_up" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/clear" to="." method="_on_clear_button_up"]

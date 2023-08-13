@@ -1,8 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://bjst4o6gm1itx"]
+[gd_scene load_steps=12 format=3 uid="uid://bjst4o6gm1itx"]
 
 [ext_resource type="Script" path="res://src/tool bar/tool_bar.gd" id="1_0vk1y"]
 [ext_resource type="Script" path="res://src/tool bar/file.gd" id="1_mwjjj"]
 [ext_resource type="Script" path="res://src/tool bar/translation.gd" id="2_428db"]
+[ext_resource type="PackedScene" uid="uid://clevgpb54kkft" path="res://src/progress tracker/progress_tracker.tscn" id="4_s77y0"]
+[ext_resource type="PackedScene" uid="uid://by1r0tniobhix" path="res://src/shortcut/short_cut.tscn" id="5_2w6xj"]
+[ext_resource type="PackedScene" uid="uid://12i4jl8x2v4b" path="res://src/extractor tracker/extractor_tracker.tscn" id="5_o1v7t"]
+[ext_resource type="PackedScene" uid="uid://bygivrnafkbgk" path="res://src/search button/search_button.tscn" id="6_36hf1"]
+[ext_resource type="PackedScene" uid="uid://b3l2xt4xxlsui" path="res://src/options/options.tscn" id="6_l4woh"]
+[ext_resource type="PackedScene" uid="uid://64pwbl8irayg" path="res://src/applier tracker/apply_progress_tracker.tscn" id="6_xo783"]
+[ext_resource type="PackedScene" uid="uid://b462uq44kj5cd" path="res://src/project selector/project_selector.tscn" id="8_eduqb"]
+[ext_resource type="PackedScene" uid="uid://h1b0tyihy0b2" path="res://src/warning/warning.tscn" id="10_ehd78"]
 
 [node name="tool_bar" type="PanelContainer"]
 anchors_preset = 15
@@ -21,11 +29,11 @@ layout_mode = 2
 size_flags_vertical = 0
 text = "File"
 item_count = 3
-popup/item_0/text = "Extract game"
-popup/item_0/id = 0
-popup/item_1/text = "View data"
+popup/item_0/text = "Select project"
+popup/item_0/id = 4
+popup/item_1/text = "Save"
 popup/item_1/id = 1
-popup/item_2/text = "Save"
+popup/item_2/text = "Options"
 popup/item_2/id = 2
 script = ExtResource("1_mwjjj")
 
@@ -45,17 +53,25 @@ title = "Open a Directory"
 file_mode = 2
 access = 2
 
+[node name="options" parent="HBoxContainer/file" instance=ExtResource("6_l4woh")]
+visible = false
+
+[node name="progress_tracker" parent="HBoxContainer/file" instance=ExtResource("4_s77y0")]
+disable_3d = true
+initial_position = 2
+visible = false
+
+[node name="extractor tracker" parent="HBoxContainer/file" instance=ExtResource("5_o1v7t")]
+visible = false
+layout_mode = 1
+
 [node name="translation" type="MenuButton" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 text = "Translation"
-item_count = 3
-popup/item_0/text = "Select project folder"
-popup/item_0/id = 0
-popup/item_1/text = "Apply TL"
-popup/item_1/id = 1
-popup/item_2/text = "Save"
-popup/item_2/id = 2
+item_count = 1
+popup/item_0/text = "Apply"
+popup/item_0/id = 1
 script = ExtResource("2_428db")
 
 [node name="proj_select" type="NativeFileDialog" parent="HBoxContainer/translation"]
@@ -63,9 +79,34 @@ title = "Open a Directory"
 file_mode = 2
 access = 2
 
+[node name="apply_progress_tracker" parent="HBoxContainer/translation" instance=ExtResource("6_xo783")]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+
+[node name="search_button" parent="HBoxContainer" instance=ExtResource("6_36hf1")]
+layout_mode = 2
+
+[node name="save" parent="HBoxContainer" instance=ExtResource("5_2w6xj")]
+layout_mode = 2
+size_flags_horizontal = 10
+flat = true
+
+[node name="Warning" parent="." instance=ExtResource("10_ehd78")]
+visible = false
+layout_mode = 2
+
+[node name="project_selector" parent="." instance=ExtResource("8_eduqb")]
+layout_mode = 2
+
+[connection signal="error" from="HBoxContainer/file" to="." method="_on_file_error"]
 [connection signal="extracted_game" from="HBoxContainer/file" to="." method="_on_file_extracted_game"]
+[connection signal="request_project_select" from="HBoxContainer/file" to="." method="_on_file_request_project_select"]
 [connection signal="dir_selected" from="HBoxContainer/file/file_select" to="HBoxContainer/file" method="_on_file_select_dir_selected"]
 [connection signal="dir_selected" from="HBoxContainer/file/extracted_select" to="HBoxContainer/file" method="_on_extracted_select_dir_selected"]
 [connection signal="dir_selected" from="HBoxContainer/file/convert_select" to="HBoxContainer/file" method="_on_convert_select_dir_selected"]
+[connection signal="error" from="HBoxContainer/translation" to="." method="_on_translation_error"]
 [connection signal="translating" from="HBoxContainer/translation" to="." method="_on_translation_translating"]
 [connection signal="dir_selected" from="HBoxContainer/translation/proj_select" to="HBoxContainer/translation" method="_on_proj_select_dir_selected"]
+[connection signal="error" from="project_selector" to="." method="_on_project_selector_error"]
+[connection signal="request_extract" from="project_selector" to="." method="_on_project_selector_request_extract"]

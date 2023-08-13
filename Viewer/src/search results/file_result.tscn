@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://sxsspgnyviac"]
+
+[ext_resource type="Script" path="res://src/search results/file_result.gd" id="1_4ch2e"]
+[ext_resource type="PackedScene" uid="uid://swgu7wlvgbpy" path="res://src/expand container button/expand_container.tscn" id="2_adonh"]
+
+[node name="file_result" type="VBoxContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_4ch2e")
+
+[node name="expand_container" parent="." instance=ExtResource("2_adonh")]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[connection signal="request_expand" from="expand_container" to="." method="_on_expand_container_request_expand"]

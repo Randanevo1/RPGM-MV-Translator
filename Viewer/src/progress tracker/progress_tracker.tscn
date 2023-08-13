@@ -1,0 +1,123 @@
+[gd_scene load_steps=6 format=3 uid="uid://clevgpb54kkft"]
+
+[ext_resource type="Script" path="res://src/progress tracker/progress_tracker.gd" id="1_rk11v"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2hch6"]
+bg_color = Color(0.152941, 0.184314, 0.301961, 1)
+
+[sub_resource type="Animation" id="Animation_1tmex"]
+resource_name = "fade in"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PanelContainer:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_lk4ne"]
+resource_name = "fade out"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PanelContainer:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6lm4c"]
+_data = {
+"fade in": SubResource("Animation_1tmex"),
+"fade out": SubResource("Animation_lk4ne")
+}
+
+[node name="progress_tracker" type="Window"]
+transparent_bg = true
+position = Vector2i(-294, -169)
+size = Vector2i(1708, 1074)
+exclusive = true
+unresizable = true
+borderless = true
+always_on_top = true
+transparent = true
+script = ExtResource("1_rk11v")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(400, 150)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -75.0
+offset_right = 200.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_2hch6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+alignment = 1
+
+[node name="progress" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="status" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="close" type="Button" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+disabled = true
+text = "Close"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_6lm4c")
+}
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/close" to="." method="_on_close_pressed"]

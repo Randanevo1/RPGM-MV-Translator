@@ -4,6 +4,8 @@ class_name View
 @onready var main_cont = $VBoxContainer/main_cont
 @onready var table = $VBoxContainer/main_cont/table
 @onready var expand_container = $VBoxContainer/expand_container
+@onready var event = $VBoxContainer/event
+
 
 
 # entry is either a "list" from CommonEvents/Maps or a singular entry from Other/System

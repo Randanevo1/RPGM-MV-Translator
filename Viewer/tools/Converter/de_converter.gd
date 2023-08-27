@@ -31,7 +31,7 @@ func de_convert():
 
 func get_extract_files():
 	
-	var extract_folder = "./" + Data.game_name + "/extracted data"
+	var extract_folder = Data.projects[Data.game_name]["path"] + "/extracted data"
 	var extract_contents = {}
 	var to_load = DirAccess.get_files_at(extract_folder)
 	
@@ -198,6 +198,11 @@ func de_convert_block(block: Array):
 	
 	for chunk in block:
 		
+		if chunk["info"]["code"] == 102:
+			holder.append(handle_choices(chunk))
+			continue
+		
+		
 		var used_cell = false
 		chunk["cells"].reverse()
 		
@@ -215,3 +220,37 @@ func de_convert_block(block: Array):
 			for line in chunk["original text"]:
 				holder.append({"code":chunk["info"]["code"], "indent":chunk["info"]["indent"], "parameters":[line]})
 	return holder
+
+
+func handle_choices(chunk: Dictionary):
+	
+	var used_cell = false
+	
+	var entry = {
+				"code":102,
+				"indent":chunk["info"]["indent"],
+				"parameters":[]
+				}
+	
+	var choice_arr = []
+	chunk["cells"].reverse()
+	
+	for cell in chunk["cells"]:
+		
+		if len(cell["text"]) > 0:
+			
+			for choice in cell["text"]:
+				choice_arr.append(choice)
+			
+			used_cell = true
+			break
+	
+	if used_cell == false:
+		
+		for choice in chunk["original text"]:
+			choice_arr.append(choice)
+	
+	entry["parameters"].append(choice_arr)
+	entry["parameters"].append_array(chunk["info"]["misc"])
+	
+	return entry
